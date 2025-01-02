@@ -1,0 +1,16 @@
+.gde-operation--page {
+  @apply p-4;
+  @apply grid grid-cols-[1fr_460px] gap-4;
+}
+
+.gde-operation--page .content {
+  @apply max-w-4xl m-auto w-full;
+}
+
+.gde-operation--page .parameter {
+  @apply flex items-center gap-4 w-full justify-between py-4;
+}
+
+.gde-operation--page .parameter-type {
+  @apply uppercase text-[10px] bg-sky-700 border-none text-white;
+}
