@@ -1,6 +1,7 @@
 .gde-operation--page {
   @apply p-4;
   @apply grid grid-cols-[1fr_460px] gap-4;
+  @apply dark:bg-background dark:text-foreground;
 }
 
 .gde-operation--page .content {

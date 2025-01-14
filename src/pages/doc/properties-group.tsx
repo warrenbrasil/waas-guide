@@ -23,18 +23,18 @@ const PropertiesGroup: React.FC<RequestBodyGroupProps> = ({ title, properties })
           <div key={index} className={`ml-${level}`}>
             <div className="text-sm font-semibold">
               {property.name}
-              <span className="ml-1 text-xs font-normal text-gray-500">( Enum )</span>
+              <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">( Enum )</span>
               {
-                property.required && <span className="ml-1 text-xs font-bold text-gray-500">( required )</span>
+                property.required && <span className="ml-1 text-xs font-bold text-gray-500 dark:text-gray-400">( required )</span>
               }
               {
-                property.readOnly && <span className="ml-1 text-xs font-normal text-gray-500">( readonly )</span>
+                property.readOnly && <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">( readonly )</span>
               }
-              <span className="ml-1 text-xs font-normal text-gray-500">( {property.description} )</span>
+              <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">( {property.description} )</span>
             </div>
-            <ul className="list-disc ml-4 mt-1">
+            <ul className="list-disc ml-4 mt-1 text-gray-500 dark:text-gray-400">
               {property.enumValues?.map((enumValue, index) => (
-                <li key={index} className="text-xs text-gray-700">
+                <li key={index} className="text-xs">
                   {enumValue}
                 </li>
               ))}
@@ -53,21 +53,21 @@ const PropertiesGroup: React.FC<RequestBodyGroupProps> = ({ title, properties })
             <CollapsibleTrigger className="flex items-center justify-between w-full py-4">
               <div className="text-sm font-semibold">
                 {property.name}
-                <span className="ml-1 text-xs font-normal text-gray-500">( Array )</span>
+                <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">( Array )</span>
                 {
-                  property.required && <span className="ml-1 text-xs font-bold text-gray-500">( required )</span>
+                  property.required && <span className="ml-1 text-xs font-bold text-gray-500 dark:text-gray-400">( required )</span>
                 }
                 {
-                  property.readOnly && <span className="ml-1 text-xs font-normal text-gray-500">( readonly )</span>
+                  property.readOnly && <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">( readonly )</span>
                 }
-                <span className="ml-4 text-xs font-normal text-gray-500">( {property.description} )</span>
+                <span className="ml-4 text-xs font-normal text-gray-500 dark:text-gray-400">( {property.description} )</span>
               </div>
               <Ellipsis size={16} className="collapsible-arrow" />
             </CollapsibleTrigger>
             <Separator />
             <CollapsibleContent>
-              <div className="ml-4 mt-2">
-                <div className="text-xs font-semibold text-gray-500">Items:</div>
+              <div className="ml-4 mt-2 text-gray-500 dark:text-gray-400">
+                <div className="text-xs font-semibold">Items:</div>
                 {renderProperties(property.items!, level + 1)}
               </div>
             </CollapsibleContent>
@@ -83,22 +83,22 @@ const PropertiesGroup: React.FC<RequestBodyGroupProps> = ({ title, properties })
           <CollapsibleTrigger className="flex items-center justify-between w-full py-4">
             <div className="text-sm font-semibold text-left">
               {property.name}
-              <span className="ml-1 text-xs font-normal text-gray-500">
+              <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">
                 ( {`${hasChildren ? "object" : property.type}`}{property.nullable ? " nullable" : ""} )
               </span>
               {
-                property.required && <span className="ml-1 text-xs font-bold text-gray-500">( required )</span>
+                property.required && <span className="ml-1 text-xs font-bold text-gray-500 dark:text-gray-400">( required )</span>
               }
               {
-                property.readOnly && <span className="ml-1 text-xs font-normal text-gray-500">( readonly )</span>
+                property.readOnly && <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">( readonly )</span>
               }
               {
                 property.in ?
-                  (<span className="ml-1 text-xs font-normal text-gray-500">
+                  (<span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">
                     ({`in ${property.in}`})
                   </span>) : null
               }
-              <span className="ml-1 text-xs font-normal text-gray-500">( {property.description} )</span>
+              <span className="ml-1 text-xs font-normal text-gray-500 dark:text-gray-400">( {property.description} )</span>
             </div>
             {hasChildren && <Ellipsis size={16} className="collapsible-arrow" />}
           </CollapsibleTrigger>

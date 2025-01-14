@@ -4,9 +4,11 @@ export interface GlobalState {
     theme: {
       dark: {
         logo: string;
+        logoSize: string;
       };
       light: {
         logo: string;
+        logoSize: string;
       };
     };
   },

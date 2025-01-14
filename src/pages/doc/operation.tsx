@@ -19,7 +19,7 @@ interface OperationProps {
   openapi: OpenApiJson | null
 }
 
-const SnippetTabsList = <TabsList className="h-12 w-full items-start">
+const SnippetTabsList = <TabsList className="h-12 w-full">
   <TabsTrigger value="curl" className="h-9 w-1/3">curl</TabsTrigger>
   <TabsTrigger value="python" className="h-9 w-1/3">python</TabsTrigger>
   <TabsTrigger value="node" className="h-9 w-1/3">node</TabsTrigger>
@@ -37,7 +37,7 @@ function DocSidebar(
 ) {
   return <div className="sidebar sticky top-16">
     <PropertiesGroup title="SECURITY" properties={securityParameters} />
-    <Tabs defaultValue="curl" className="w-full">
+    <Tabs defaultValue="curl" className="w-full mt-4">
       {SnippetTabsList}
       {CurlSnippetContent(curlSnippet)}
       {PythonSnippetContent(pythonSnippet)}
@@ -112,7 +112,7 @@ function Description(doc: Operation | null) {
 }
 
 function PathInfo(doc: Operation | null) {
-  return <Alert className={`my-4 alert-${doc?.method} py-8`}>
+  return <Alert className={`my-4 alert alert-${doc?.method} py-8`}>
     <AlertDescription className="flex items-center">
       <Terminal className="h6 w-6 mr-4" />
       <span className={`method ${doc?.method} mr-4`}>{doc?.method}</span>

@@ -53,7 +53,7 @@ const GroupedOperations = ({ spec, searchTerm }: { spec: OpenApiJson; searchTerm
 
 const SearchEmptyMessage = <Alert className="search-empty--alert">
   <div>
-    <Search className='w-10 h-10 text-cyan-800' />
+    <Search className='w-10 h-10 text-cyan-800 dark:text-foreground' />
   </div>
   <div>
     <AlertTitle className='text-xl'>
@@ -70,7 +70,7 @@ function SearchContent(
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
   specs: OpenApiJson[]
 ): React.ReactNode {
-  return <div className="max-w-7xl m-auto w-full">
+  return <div className="max-w-7xl m-auto w-full dark:text-foreground">
     <div className="grid grid-cols-[1fr_360px] gap-8">
       {SearchArea(searchTerm, setSearchTerm, specs)}
       {SearchSidebar(specs, searchTerm)}

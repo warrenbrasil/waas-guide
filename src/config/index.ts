@@ -3,13 +3,15 @@ import { GlobalState } from "@/types";
 export default {
   branding: {
     logo: '/logo.svg',
-    name: 'WaaS',
+    name: 'Guide',
     theme: {
       dark: {
-        logo: '/logo-white.svg'
+        logo: '/guide-logo-white.png',
+        logoSize: 'h-8'
       },
       light: {
-        logo: '/logo-black.svg'
+        logo: '/guide-logo-black.png',
+        logoSize: 'h-8'
       }
     }
   },
