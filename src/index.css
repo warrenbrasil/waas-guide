@@ -1,6 +1,8 @@
-@tailwind base;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -38,9 +40,9 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%}
   .dark {
-    --background: 196, 18%, 15%;
+    --background: 196, 18%, 12%;
     --foreground: 0 0% 88%;
-    --card: 0 0% 3.9%;
+    --card: 196, 18%, 8.9%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -54,7 +56,7 @@
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 196, 18%, 19%;
+    --border: 196, 18%, 20%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;
@@ -62,13 +64,13 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 196, 18%, 11%;
+    --sidebar-background: 196, 18%, 12%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 320 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 196, 10%, 16%;
+    --sidebar-border: 196, 18%, 20%;
     --sidebar-ring: 317.2 91.2% 59.8%}
 }
 @layer base {
@@ -82,11 +84,15 @@
 
   .gde-appbar {
     @apply dark:bg-sidebar dark:text-sidebar-foreground;
-    @apply p-4 sticky top-0 w-full shadow-md bg-white z-50;
-    @apply flex justify-between;
+    @apply p-4 sticky top-0 w-full bg-white z-50;
+    @apply flex justify-between shadow;
   }
   
   .gde-appbar--left {
+    @apply flex items-center;
+  }
+
+  .gde-appbar--right {
     @apply flex items-center;
   }
 }
@@ -189,11 +195,31 @@
 
 .gde-page {
   @apply p-2 xl:p-9 pt-4;
-  @apply dark:bg-background;
-  @apply h-svh overflow-auto pb-32;
+  @apply dark:bg-background relative;
+  @apply h-dvh overflow-auto pb-32;
+}
+
+.gde-page pre {
+  @apply rounded-2xl;
 }
 
 h1 {
   @apply text-4xl font-bold;
+}
+
+.branding-name {
+  @apply font-bold text-xl font-display;
+}
+
+.dark .branding-name {
+  background: -webkit-linear-gradient(45deg, #7209b7, #00f5d4, #ffd60a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.light .branding-name {
+  background: -webkit-linear-gradient(0deg, #f72585, #b5179e, #7209b7, #560bad, #560bad, #3f37c9, #4361ee, #4895ef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 

@@ -8,10 +8,11 @@ import Logo from './components/logo';
 import { GlobalState } from './types';
 import SearchPage from './pages/search';
 import { Link } from 'react-router-dom';
-import { MoonStar, Search, Sun } from 'lucide-react';
+import { BookOpenText, Megaphone, MoonStar, Search, Sun } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { useEffect } from 'react';
 import HomePage from './pages/home';
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from './components/ui/navigation-menu';
 
 
 const Page = (
@@ -23,9 +24,9 @@ const Page = (
         </>
       } />
       <Route path="/pages/:page" element={
-        <>
+        <div className='markdown-page'>
           <MarkdownPage />
-        </>
+        </div>
       } />
       <Route path="/docs/:spec/:id" element={
         <DocPage />
@@ -64,6 +65,22 @@ function HeaderContentRight() {
     }));
   }
   return <div className='gde-appbar--right'>
+    <NavigationMenu className="mr-4 flex">
+      <NavigationMenuList className="gap-4">
+        <NavigationMenuItem>
+          <Link to="/pages/readme" className="flex items-center gap-2">
+            <BookOpenText size="20" />
+            Readme
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link to="/pages/changelog" className="flex items-center gap-2">
+            <Megaphone size="20" />
+            Changelog
+          </Link>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
     {ButtonSearch}
     <Button variant="ghost" onClick={toggleTheme}>
       {globalState.theme === 'dark' ? <Sun /> : <MoonStar />}
@@ -73,8 +90,7 @@ function HeaderContentRight() {
 function Branding(globalState: GlobalState) {
   return <Link to="/" className="flex items-center gap-4 leading-none">
     <Logo />
-    <span className="font-bold text-xl -mt-1">|</span>
-    <span className="font-bold text-xl">{globalState.branding.name}</span>
+    <span className="branding-name">{globalState.branding.name}</span>
   </Link>;
 }
 

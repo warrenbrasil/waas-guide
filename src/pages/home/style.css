@@ -1,0 +1,42 @@
+@import url('./mobile.css');
+.home-page {
+  @apply text-foreground max-w-7xl mx-auto;
+  @apply p-4;
+}
+
+.desktop .home-hero {
+  @apply min-h-96 flex flex-col justify-center;
+}
+
+.desktop .home-hero--title {
+  @apply text-7xl font-display;
+  @apply inline-block;
+}
+
+.dark .home-hero--title {
+  background: -webkit-linear-gradient(45deg, #7209b7, #00f5d4, #ffd60a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.light .home-hero--title {
+  background: -webkit-linear-gradient(0deg, #f72585, #b5179e, #7209b7, #560bad, #560bad, #3f37c9, #4361ee, #4895ef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.desktop .home-hero--subtitle {
+  @apply text-6xl;
+  @apply font-light italic ml-4;
+  @apply md:leading-snug underline;
+  @apply font-display;
+}
+
+.home-hero--description {
+  @apply text-gray-500 md:text-2xl;
+  @apply font-semibold md:leading-loose mt-2 md:mt-4;
+}
+
+.home-features {
+  @apply grid md:grid-cols-4 gap-4;
+}

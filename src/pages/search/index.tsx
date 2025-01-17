@@ -7,6 +7,7 @@ import { groupOperationsByTag } from '@/components/sidebar/groupOperationsByTag'
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const highlightText = (text: string, searchTerm: string) => {
   if (!searchTerm) return text;
@@ -70,8 +71,8 @@ function SearchContent(
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
   specs: OpenApiJson[]
 ): React.ReactNode {
-  return <div className="max-w-7xl m-auto w-full dark:text-foreground">
-    <div className="grid grid-cols-[1fr_360px] gap-8">
+  return <div className="max-w-7xl m-auto w-full dark:text-foreground p-4">
+    <div className="grid md:grid-cols-[1fr_360px] gap-8">
       {SearchArea(searchTerm, setSearchTerm, specs)}
       {SearchSidebar(specs, searchTerm)}
     </div>
@@ -92,7 +93,7 @@ function SearchArea(
 }
 
 function SearchSidebar(specs: OpenApiJson[], searchTerm: string) {
-  return <div>
+  return <div className='hidden md:block'>
     <h3 className="text-xl font-bold">Especificações</h3>
     {Specifications(specs, searchTerm)}
   </div>;
@@ -102,20 +103,22 @@ function Specifications(specs: OpenApiJson[], searchTerm: string) {
   return specs.map((spec, index) => {
     const itemCount = countFilteredOperations(spec, searchTerm);
     return (
-      <Alert className="my-4" key={`spec-${index}`}>
-        <AlertTitle className="flex justify-between items-center h-9">
-          {spec.info.title} {searchTerm && itemCount > 0 && <Badge className="rounded-full">{itemCount}</Badge>}
-        </AlertTitle>
-        <AlertDescription className="text-sm line-clamp-6">
+      <Card className="my-4" key={`spec-${index}`}>
+        <CardHeader>
+          <CardTitle className="flex justify-between items-center h-9">
+            {spec.info.title} {searchTerm && itemCount > 0 && <Badge className="rounded-full">{itemCount}</Badge>}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-sm line-clamp-6">
           {spec.info.description}
-        </AlertDescription>
-      </Alert>
+        </CardContent>
+      </Card>
     );
   });
 }
 
 function SearchInput(searchTerm: string, setSearchTerm: React.Dispatch<React.SetStateAction<string>>) {
-  return <div className="flex items-center gap-2 relative mb-8 w-2/3">
+  return <div className="flex items-center gap-2 relative mb-8 md:w-2/3 bg-muted">
     <Search className="w-4 h-4 text-gray-400 absolute left-4" />
     <Input
       placeholder="Digite um termo para pesquisar"
@@ -132,7 +135,7 @@ function SearchInput(searchTerm: string, setSearchTerm: React.Dispatch<React.Set
 
 function SearchResult(specs: OpenApiJson[], searchTerm: string) {
   return specs.map((spec) => (
-    <div className="py-4" key={spec.info.title}>
+    <div className="py-4 max-w-full" key={spec.info.title}>
       <div className="text-sm uppercase font-bold">{spec.info.title}</div>
       <GroupedOperations spec={spec} searchTerm={searchTerm} />
     </div>
@@ -165,15 +168,15 @@ function OperationLink(
     className="w-full flex items-center justify-between py-4 border-b-[1px]"
     to={operationPath}
   >
-    <div className="pl-4">
+    <div className="md:pl-4">
       {HighlightSummary(operation, searchTerm)}
       {HighlightDescription(operation, searchTerm)}
-      <div className="flex items-center gap-2 mt-4">
+      <div className="flex-col items-center gap-4 mt-4 md:flex">
         {HighlightPath(operation, searchTerm)}
         {HighlightTags(operation, searchTerm)}
       </div>
     </div>
-    <span className={`method ${operation.method} mr-4`}>
+    <span className={`method ${operation.method} md:mr-4 hidden md:inline`}>
       {highlightText(operation.method, searchTerm)}
     </span>
   </Link>;

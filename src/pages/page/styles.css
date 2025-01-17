@@ -1,0 +1,35 @@
+.markdown-page {
+  @apply p-4;
+}
+
+.markdown-page h1 {
+  @apply leading-loose text-5xl my-2;
+}
+
+.markdown-page h2 {
+  @apply leading-loose text-2xl mb-2 mt-4;
+}
+
+.markdown-page p {
+  @apply leading-relaxed;
+}
+
+.markdown-page ui, .markdown-page ol {
+  @apply my-4 leading-loose;
+}
+
+.markdown-page blockquote {
+  @apply bg-zinc-600 p-8 rounded-lg text-xl bg-opacity-15;
+}
+
+.markdown-page p code {
+  @apply text-pink-600 font-semibold font-mono text-xs p-1;
+}
+
+.markdown-page code.hljs {
+  @apply rounded-lg my-4 p-8 block !important;
+}
+
+.markdown-page hr {
+  @apply my-4;
+}

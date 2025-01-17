@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MarkdownRenderer from '@/utils/MarkdownRenderer';
+import './styles.css';
 
 const Home: React.FC = () => {
   const { page = '' } = useParams<{ page: string }>();
@@ -21,7 +22,7 @@ const Home: React.FC = () => {
   }, [page, setContent]); // Apenas executa quando `page` mudar
 
   return (
-    <div className='text-foreground max-w-7xl mx-auto'>
+    <div className='text-foreground max-w-5xl mx-auto'>
       <MarkdownRenderer markdownContent={content} />
     </div>
   );

@@ -1,0 +1,23 @@
+.mobile .home-features {
+  @apply grid gap-4;
+}
+
+.mobile .home-hero {
+  @apply min-h-96 flex flex-col justify-center;
+}
+
+.mobile .home-hero--title {
+  @apply text-6xl font-display;
+  @apply inline-block;
+}
+
+.mobile .home-hero--subtitle {
+  @apply text-2xl inline-block;
+  @apply font-light italic;
+  @apply underline;
+  @apply font-display;
+}
+
+.mobile .home-hero {
+  @apply min-h-64 flex flex-col justify-center;
+}

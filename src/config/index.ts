@@ -21,5 +21,5 @@ export default {
     "swagger petstore - openapi 3.0": 'https://petstore3.swagger.io/api/v3/openapi.json',
     "spoonacular api": "https://spoonacular.com/application/frontend/downloads/spoonacular-openapi-3.json"
   },
-  pages: ['/', '/search']
+  pages: ['/', '/search', '/pages/readme', '/pages/changelog']
 } as GlobalState
