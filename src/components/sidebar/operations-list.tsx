@@ -15,7 +15,7 @@ const OperationsList: React.FC<OperationsListProps> = ({ operations, specTitle }
   return (
     <SidebarMenu className="py-4">
       {operations.filter((operation) => operation.details?.operationId).map((operation) => {
-        const operationPath = `/docs/${specTitle.toLocaleLowerCase()}/${operation.details?.operationId}`;
+        const operationPath = `/guide/docs/${specTitle.toLocaleLowerCase()}/${operation.details?.operationId}`;
         const isSelected = pathname === operationPath;
 
         return (
