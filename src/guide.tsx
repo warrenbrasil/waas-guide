@@ -18,27 +18,27 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from './compon
 const Page = (
   <article className='gde-page'>
     <Routes>
-      <Route path="/" element={
+      <Route path="/guide" element={
         <>
           <HomePage />
         </>
       } />
-      <Route path="/pages/:page" element={
+      <Route path="/guide/pages/:page" element={
         <div className='markdown-page'>
           <MarkdownPage />
         </div>
       } />
-      <Route path="/docs/:spec/:id" element={
+      <Route path="/guide/docs/:spec/:id" element={
         <DocPage />
       } />
-      <Route path="/search" element={
+      <Route path="/guide/search" element={
         <SearchPage />
       } />
     </Routes>
   </article>
 )
 
-const ButtonSearch = (<Link to="/search">
+const ButtonSearch = (<Link to="/guide/search">
   <Button variant={'ghost'}>
     <Search />
     Pesquisar
@@ -68,13 +68,13 @@ function HeaderContentRight() {
     <NavigationMenu className="mr-4 flex">
       <NavigationMenuList className="gap-4">
         <NavigationMenuItem>
-          <Link to="/pages/readme" className="flex items-center gap-2">
+          <Link to="/guide/pages/readme" className="flex items-center gap-2">
             <BookOpenText size="20" />
             Readme
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/pages/changelog" className="flex items-center gap-2">
+          <Link to="/guide/pages/changelog" className="flex items-center gap-2">
             <Megaphone size="20" />
             Changelog
           </Link>
@@ -88,7 +88,7 @@ function HeaderContentRight() {
   </div>;
 }
 function Branding(globalState: GlobalState) {
-  return <Link to="/" className="flex items-center gap-4 leading-none">
+  return <Link to="/guide/" className="flex items-center gap-4 leading-none">
     <Logo />
     <span className="branding-name">{globalState.branding.name}</span>
   </Link>;
@@ -116,7 +116,7 @@ const App: React.FC = () => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-        navigate("/search")
+        navigate("/guide/search")
       }
     }
     document.addEventListener("keydown", down)

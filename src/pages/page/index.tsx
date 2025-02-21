@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await fetch(`/pages/${page}.md`);
+        const response = await fetch(`/guide/pages/${page}.md`);
         const text = await response.text();
         setContent(text);
       } catch (error) {
