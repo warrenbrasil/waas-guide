@@ -151,7 +151,7 @@ function GroupedOperation(
   return <div key={`group-${index}`}>
     <div className="text-xs uppercase font-semibold my-4">{specKey}</div>
     {filteredOperations.map((operation, index) => {
-      const operationPath = `/docs/${spec.info.title.toLocaleLowerCase()}/${operation.details?.operationId}`;
+      const operationPath = `/guide/docs/${spec.info.title.toLocaleLowerCase()}/${operation.details?.operationId}`;
       return OperationLink(index, operationPath, operation, searchTerm);
     })}
   </div>;
