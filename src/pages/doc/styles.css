@@ -15,3 +15,74 @@
 .gde-operation--page .parameter-type {
   @apply uppercase text-[10px] bg-sky-700 border-none text-white;
 }
+
+/* Media queries para responsividade em dispositivos móveis */
+@media screen and (max-width: 768px) {
+  /* Modificar o grid para empilhar verticalmente em telas pequenas */
+  .gde-operation--page {
+    @apply grid-cols-1;
+    padding: 10px;
+  }
+  
+  /* Ajusta posição da sidebar para fluxo normal em mobile */
+  .gde-operation--page .sidebar {
+    position: relative !important;
+    top: 0 !important;
+    width: 100%;
+  }
+  
+  /* Ajusta tamanho dos containers principais */
+  .doc-container {
+    padding: 10px;
+    overflow-x: hidden;
+  }
+  
+  /* Garantir que elementos flex se ajustem em telas menores */
+  .parameter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  /* Ajusta o tamanho do título principal */
+  .doc-container h1, .doc-container h2, .doc-container h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  /* Melhora a exibição dos parâmetros e exemplos de código */
+  .doc-params, .doc-body, .doc-security {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Ajusta blocos de código para não quebrarem o layout */
+  pre, code {
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-width: 100%;
+    font-size: 12px !important;
+  }
+  
+  /* Ajusta o container dos códigos syntax highlighter */
+  pre[class*="language-"] {
+    margin: 0 !important;
+    padding: 8px !important;
+  }
+  
+  /* Reduz o padding de elementos de requisição */
+  .request-info, .response-info {
+    padding: 8px;
+  }
+
+  /* Ajusta tamanho de fonte para melhor leitura */
+  body {
+    font-size: 14px;
+  }
+  
+  /* Ajusta o tamanho dos tabs */
+  .TabsList, .TabsTrigger {
+    width: 100% !important;
+    font-size: 12px !important;
+  }
+}

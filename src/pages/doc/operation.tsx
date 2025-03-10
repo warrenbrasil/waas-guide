@@ -20,9 +20,9 @@ interface OperationProps {
 }
 
 const SnippetTabsList = <TabsList className="h-12 w-full">
-  <TabsTrigger value="curl" className="h-9 w-1/3">curl</TabsTrigger>
-  <TabsTrigger value="python" className="h-9 w-1/3">python</TabsTrigger>
-  <TabsTrigger value="node" className="h-9 w-1/3">node</TabsTrigger>
+  <TabsTrigger value="curl" className="h-9 flex-1 min-w-0">curl</TabsTrigger>
+  <TabsTrigger value="python" className="h-9 flex-1 min-w-0">python</TabsTrigger>
+  <TabsTrigger value="node" className="h-9 flex-1 min-w-0">node</TabsTrigger>
 </TabsList>;
 
 function DocSidebar(
@@ -216,7 +216,7 @@ function ResponseProperty(schema: ParsedSchema) {
   </div>;
 }
 
-const TabSpec = <TabsTrigger value="spec" className="w-1/2 h-9">Spec</TabsTrigger>;
+const TabSpec = <TabsTrigger value="spec" className="flex-1 h-9 min-w-0">Spec</TabsTrigger>;
 
 function DocTabs(
   doc: Operation | null,
@@ -249,8 +249,8 @@ function ContentTabs(doc: Operation | null) {
 
 function TabRequestExample(doc: Operation | null) {
   return doc?.requestExample && (
-    <TabsTrigger value="requestSample" className="w-1/2 h-9">
-      Exemplo de requisição
+    <TabsTrigger value="requestSample" className="flex-1 h-9 min-w-0">
+      Exemplo
     </TabsTrigger>
   );
 }
@@ -266,7 +266,7 @@ const Doc: React.FC<OperationProps> = ({ doc, openapi }) => {
   const pythonSnippet = PythonSnippet(openapi, doc);
 
   return (
-    <div className="gde-operation--page">
+    <div className="gde-operation--page doc-container">
       <div className="content">
         {DocTitle(doc)}
         {PathInfo(doc)}
@@ -276,7 +276,9 @@ const Doc: React.FC<OperationProps> = ({ doc, openapi }) => {
         <Separator className="mt-4 mb-8" />
         {DocTabs(doc, headerParameters, queryParameters, pathParameters)}
       </div>
-      {DocSidebar(securityParameters, curlSnippet, pythonSnippet, nodeSnippet)}
+      <div className="sidebar">
+        {DocSidebar(securityParameters, curlSnippet, pythonSnippet, nodeSnippet)}
+      </div>
     </div>
   );
 };

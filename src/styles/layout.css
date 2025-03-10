@@ -1,0 +1,131 @@
+/* Layout principal */
+.gde-app {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.gde-page {
+  padding: 20px;
+  width: 100%;
+}
+
+/* Temas Light e Dark */
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --border: rgba(0, 0, 0, 0.1);
+  --accent: rgba(0, 0, 0, 0.05);
+  color-scheme: light;
+}
+
+html.dark {
+  --background: #1a1a1a;
+  --foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.15);
+  --accent: rgba(255, 255, 255, 0.1);
+  color-scheme: dark;
+}
+
+/* Estilos do cabeçalho */
+.gde-appbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 64px;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.gde-appbar--left, 
+.gde-appbar--right {
+  display: flex;
+  align-items: center;
+}
+
+.branding-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+/* Estilos para o menu desktop */
+.desktop-menu {
+  display: flex;
+  align-items: center;
+}
+
+/* Menu mobile - sempre oculto no desktop */
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 64px;
+  right: 0;
+  width: 250px;
+  background-color: var(--background);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: none;
+  z-index: 1000;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Desktop não precisa esconder textos */
+.button-text, .nav-text, .shortcut {
+  display: inline;
+}
+
+/* Customização do Sheet (menu lateral móvel) */
+.sheet-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.sheet-content {
+  background-color: var(--background);
+  color: var(--foreground);
+  border-left: 1px solid var(--border);
+}
+
+/* Estilos para hover no menu */
+.hover\:bg-accent:hover {
+  background-color: var(--accent);
+}
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+  /* Ajustes do cabeçalho */
+  .gde-appbar {
+    padding: 0 10px;
+  }
+  
+  /* Esconde o menu desktop e mostra o toggle do menu mobile */
+  .desktop-menu {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  /* O menu dropdown só aparece quando estiver aberto */
+  .mobile-menu-dropdown.active {
+    display: block;
+  }
+  
+  /* Garante que o logo não fique muito grande */
+  .logo svg {
+    max-height: 30px;
+    width: auto;
+  }
+}
+
+/* Oculta o texto do branding em telas muito pequenas */
+@media (max-width: 380px) {
+  .branding-name {
+    display: none;
+  }
+} 

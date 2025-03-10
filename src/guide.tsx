@@ -8,11 +8,20 @@ import Logo from './components/logo';
 import { GlobalState } from './types';
 import SearchPage from './pages/search';
 import { Link } from 'react-router-dom';
-import { BookOpenText, Megaphone, MoonStar, Search, Sun } from 'lucide-react';
+import { BookOpenText, Menu, Megaphone, MoonStar, Search, Sun } from 'lucide-react';
 import { Button } from './components/ui/button';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import HomePage from './pages/home';
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from './components/ui/navigation-menu';
+import { 
+  NavigationMenu, 
+  NavigationMenuItem, 
+  NavigationMenuList,
+} from './components/ui/navigation-menu';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "./components/ui/sheet";
 
 
 const Page = (
@@ -38,15 +47,17 @@ const Page = (
   </article>
 )
 
-const ButtonSearch = (<Link to="/guide/search">
-  <Button variant={'ghost'}>
-    <Search />
-    Pesquisar
-    <kbd className="shortcut">
-      <span className="text-xs">⌘</span>K
-    </kbd>
-  </Button>
-</Link>)
+const SearchButton = ({ className = "" }) => (
+  <Link to="/guide/search">
+    <Button variant="ghost" className={`${className}`}>
+      <Search className="h-5 w-5 mr-2" />
+      <span className="hidden md:inline">Pesquisar</span>
+      <kbd className="hidden md:inline-flex ml-2 items-center gap-1 rounded border px-1.5 text-xs">
+        <span className="text-xs">⌘</span>K
+      </kbd>
+    </Button>
+  </Link>
+);
 
 function HeaderContentLeft(globalState: GlobalState) {
   return <div className='gde-appbar--left'>
@@ -57,40 +68,113 @@ function HeaderContentLeft(globalState: GlobalState) {
 
 function HeaderContentRight() {
   const { globalState, setGlobalState } = useGlobalContext();
+  const [open, setOpen] = useState(false);
+  
   const toggleTheme = () => {
-    const theme = globalState.theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('theme', theme);
+    const newTheme = globalState.theme === 'dark' ? 'light' : 'dark';
+    
+    // Salva no localStorage
+    localStorage.setItem('theme', newTheme);
+    
+    // Atualiza o estado global
     setGlobalState((state) => ({
-      ...state, theme: theme,
+      ...state, theme: newTheme,
     }));
+    
+    // Aplica imediatamente ao DOM
+    const root = window.document.documentElement;
+    root.classList.remove('dark', 'light');
+    root.classList.add(newTheme);
+    root.setAttribute('data-theme', newTheme);
   }
-  return <div className='gde-appbar--right'>
-    <NavigationMenu className="mr-4 flex">
-      <NavigationMenuList className="gap-4">
-        <NavigationMenuItem>
-          <Link to="/guide/pages/readme" className="flex items-center gap-2">
-            <BookOpenText size="20" />
-            Readme
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/guide/pages/changelog" className="flex items-center gap-2">
-            <Megaphone size="20" />
-            Changelog
-          </Link>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-    {ButtonSearch}
-    <Button variant="ghost" onClick={toggleTheme}>
-      {globalState.theme === 'dark' ? <Sun /> : <MoonStar />}
-    </Button>
-  </div>;
+  
+  return (
+    <div className='gde-appbar--right'>
+      {/* Desktop Navigation - visível apenas em desktop */}
+      <div className="hidden md:flex items-center">
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link to="/guide/pages/readme" className="flex items-center gap-2 px-3 py-2">
+                <BookOpenText className="h-5 w-5" />
+                Readme
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/guide/pages/changelog" className="flex items-center gap-2 px-3 py-2">
+                <Megaphone className="h-5 w-5" />
+                Changelog
+              </Link>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        
+        <SearchButton />
+        
+        <Button variant="ghost" onClick={toggleTheme} size="icon">
+          {globalState.theme === 'dark' ? <Sun className="h-5 w-5" /> : <MoonStar className="h-5 w-5" />}
+        </Button>
+      </div>
+      
+      {/* Mobile Navigation - visível apenas em mobile */}
+      <div className="flex md:hidden">
+        <SearchButton className="mr-1" />
+        
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[250px] sm:w-[300px] sheet-content">
+            <div className="grid gap-4 py-4">
+              <Link 
+                to="/guide/pages/readme" 
+                className="flex items-center gap-2 px-4 py-2 hover:bg-accent rounded-md"
+                onClick={() => setOpen(false)}
+              >
+                <BookOpenText className="h-5 w-5" />
+                Readme
+              </Link>
+              <Link 
+                to="/guide/pages/changelog" 
+                className="flex items-center gap-2 px-4 py-2 hover:bg-accent rounded-md"
+                onClick={() => setOpen(false)}
+              >
+                <Megaphone className="h-5 w-5" />
+                Changelog
+              </Link>
+              <Link 
+                to="/guide/search" 
+                className="flex items-center gap-2 px-4 py-2 hover:bg-accent rounded-md"
+                onClick={() => setOpen(false)}
+              >
+                <Search className="h-5 w-5" />
+                Pesquisar
+              </Link>
+              <Button 
+                variant="ghost" 
+                onClick={() => {
+                  toggleTheme();
+                  setOpen(false);
+                }} 
+                className="flex items-center justify-start gap-2 px-4 py-2 hover:bg-accent rounded-md text-left"
+              >
+                {globalState.theme === 'dark' ? <Sun className="h-5 w-5" /> : <MoonStar className="h-5 w-5" />}
+                Modo {globalState.theme === 'dark' ? 'Claro' : 'Escuro'}
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </div>
+  );
 }
+
 function Branding(globalState: GlobalState) {
   return <Link to="/guide/" className="flex items-center gap-4 leading-none">
     <Logo />
-    <span className="branding-name">{globalState.branding.name}</span>
+    <span className="branding-name hidden sm:inline">{globalState.branding.name}</span>
   </Link>;
 }
 
@@ -106,12 +190,27 @@ const App: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Lê o tema do localStorage ou usa 'light' como padrão
     const theme = (localStorage.getItem('theme') || 'light') as GlobalState['theme'];
     localStorage.setItem('theme', theme);
+    
+    // Aplica o tema ao documento HTML
+    const root = window.document.documentElement;
+    
+    // Remove ambas as classes para garantir que não haja conflito
+    root.classList.remove('dark', 'light');
+    
+    // Adiciona a classe do tema atual
+    root.classList.add(theme);
+    
+    // Define o atributo data-theme para temas do shadcn
+    root.setAttribute('data-theme', theme);
+    
     setGlobalState((state) => ({
       ...state, theme
     }));
-  }, [setGlobalState])
+  }, [setGlobalState]);
+  
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -122,8 +221,9 @@ const App: React.FC = () => {
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
   }, [navigate, setGlobalState])
+  
   return (
-    <div className={`gde-app ${globalState.theme}`}>
+    <div className="gde-app">
       <SidebarProvider>
         <AppSidebar />
         <main className='w-full'>
