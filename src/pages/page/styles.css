@@ -2,14 +2,6 @@
   @apply p-4;
 }
 
-.markdown-page h1 {
-  @apply leading-loose text-5xl my-2;
-}
-
-.markdown-page h2 {
-  @apply leading-loose text-2xl mb-2 mt-4;
-}
-
 .markdown-page p {
   @apply leading-relaxed;
 }

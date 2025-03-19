@@ -9,9 +9,11 @@ import './styles.css';
 
 const DocPage: React.FC = () => {
   const { id = '', spec = '' } = useParams<DocParams>();
+  console.log(id, spec);
   const { globalState } = useGlobalContext();
   const findOperation = useOperationFilter();
   const specURL = useMemo(() => globalState.specs[spec], [globalState.specs, spec]);
+  console.log(specURL);
   const { doc, openapi } = useFetchDoc(specURL, id, findOperation);
 
   return (Operation({ doc, openapi }));

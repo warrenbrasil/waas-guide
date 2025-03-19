@@ -23,7 +23,7 @@ const CollapsibleGroup: React.FC<CollapsibleGroupProps> = ({ spec }) => {
             </CollapsibleTrigger>
             <SidebarSeparator />
             <CollapsibleContent>
-              <OperationsList operations={operations} specTitle={spec.info.title} />
+              <OperationsList operations={operations} specName={spec.name} />
             </CollapsibleContent>
           </SidebarGroupContent>
         </Collapsible>

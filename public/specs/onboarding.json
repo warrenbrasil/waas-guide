@@ -1,0 +1,3251 @@
+{
+  "openapi": "3.1.0",
+  "name": "onboarding",
+  "info": {
+    "title": "Cadastro",
+    "description": "API para cadastro e gerenciamento de clientes.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Warren WaaS Support",
+      "email": "support@warren.com.br"
+    },
+    "license": {
+      "name": "Proprietary",
+      "url": "https://warren.com.br/terms"
+    },
+    "x-parsed-md-description": {
+      "result": {
+        "$$mdtype": "Node",
+        "errors": [],
+        "lines": [],
+        "inline": false,
+        "attributes": {},
+        "children": [
+          {
+            "$$mdtype": "Node",
+            "errors": [],
+            "lines": [
+              0,
+              1
+            ],
+            "inline": false,
+            "attributes": {},
+            "children": [
+              {
+                "$$mdtype": "Node",
+                "errors": [],
+                "lines": [
+                  0,
+                  1
+                ],
+                "inline": true,
+                "attributes": {},
+                "children": [
+                  {
+                    "$$mdtype": "Text",
+                    "value": "API para cadastro e gerenciamento de clientes na plataforma Warren WaaS."
+                  }
+                ],
+                "type": "Paragraph"
+              }
+            ],
+            "type": "Document"
+          }
+        ],
+        "type": "Root"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://waas.warren.com.br"
+    }
+  ],
+  "paths": {
+    "/api/onboarding/legacy/customers/{cpfcnpj}": {
+      "get": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "get-customer-by-document",
+        "summary": "Buscar cliente por documento",
+        "description": "Serviço para buscar cliente por documento",
+        "parameters": [
+          {
+            "name": "cpfcnpj",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoreCustomerBrandDtoApiResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoreCustomerBrandDtoApiResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoreCustomerBrandDtoApiResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/legacy/customers": {
+      "get": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "get-customers",
+        "summary": "Listar clientes",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isRemoved",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerBrandSearchResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerBrandSearchResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerBrandSearchResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/termsofuse": {
+      "get": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "get-terms-of-use",
+        "summary": "Buscar termos de uso",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TermsOfUse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TermsOfUse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TermsOfUse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/full": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "post-customer-full",
+        "summary": "Cadastrar cliente completo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerFull"
+              },
+              "example": {
+                "customer": {
+                  "contactData": {
+                    "fullName": "Nome do Cliente",
+                    "document": "00000000000",
+                    "email": "email@email.com",
+                    "phone": {
+                      "countryCode": "55",
+                      "areaCode": 15,
+                      "number": 999999999
+                    }
+                  },
+                  "personalData": {
+                    "birthDate": "2005-07-02T00:00:00",
+                    "gender": 0,
+                    "maritalStatus": 5,
+                    "spouseName": "Nome do Cônjuge",
+                    "spouseDocument": "11111111111",
+                    "education": 3,
+                    "nationalityType": 0,
+                    "homeTown": "Porto Alegre",
+                    "homeState": "SP",
+                    "homeCountry": "BRA",
+                    "address": {
+                      "zipCode": "90035191",
+                      "street": "Avenida Osvaldo Aranha",
+                      "number": 720,
+                      "complement": "Conj 201",
+                      "neighborhood": "Bom Fim",
+                      "state": "RS",
+                      "city": "Porto Alegre",
+                      "country": "Brasil",
+                      "ibge": 4314902
+                    }
+                  },
+                  "financialData": {
+                    "isWorking": true,
+                    "selfEmployed": false,
+                    "profession": "Investidor",
+                    "workPlaceName": "Warren Investimentos",
+                    "workPlaceCNPJ": "92875780000131",
+                    "monthlyIncome": 10000,
+                    "movableProperty": 1000000,
+                    "immovableProperty": 1000000,
+                    "totalInvested": 100000000,
+                    "privatePensionTotalInvested": 10000,
+                    "pep": false,
+                    "qualifiedInvestor": true,
+                    "usPerson": false
+                  },
+                  "documentData": {
+                    "type": 0,
+                    "issuingAuthority": "SSP",
+                    "state": "SP",
+                    "number": "00000000",
+                    "issueDate": "1990-01-01T00:00:00",
+                    "motherName": "Mãe do cliente"
+                  }
+                },
+                "customerSuitabilty": {
+                  "questionnaire": {
+                    "id": "v3.0.0",
+                    "answers": [
+                      {
+                        "questionId": "question_investment_knowledge",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_education",
+                        "answer": [
+                          "postgraduate_specialization"
+                        ]
+                      },
+                      {
+                        "questionId": "question_motivation",
+                        "answer": [
+                          "B"
+                        ]
+                      },
+                      {
+                        "questionId": "question_investment_duration",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_economy",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_frequency",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_products",
+                        "answer": [
+                          "D",
+                          "E",
+                          "F"
+                        ]
+                      },
+                      {
+                        "questionId": "question_total_invested_last_year",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_current_products",
+                        "answer": [
+                          "D",
+                          "E",
+                          "F"
+                        ]
+                      },
+                      {
+                        "questionId": "question_earnings",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_total_invested",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_investment_duration_warren",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_assets",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_working",
+                        "answer": [
+                          "B"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerFull"
+              },
+              "example": {
+                "customer": {
+                  "contactData": {
+                    "fullName": "Nome do Cliente",
+                    "document": "00000000000",
+                    "email": "email@email.com",
+                    "phone": {
+                      "countryCode": "55",
+                      "areaCode": 15,
+                      "number": 999999999
+                    }
+                  },
+                  "personalData": {
+                    "birthDate": "2005-07-02T00:00:00",
+                    "gender": 0,
+                    "maritalStatus": 5,
+                    "spouseName": "Nome do Cônjuge",
+                    "spouseDocument": "11111111111",
+                    "education": 3,
+                    "nationalityType": 0,
+                    "homeTown": "Porto Alegre",
+                    "homeState": "SP",
+                    "homeCountry": "BRA",
+                    "address": {
+                      "zipCode": "90035191",
+                      "street": "Avenida Osvaldo Aranha",
+                      "number": 720,
+                      "complement": "Conj 201",
+                      "neighborhood": "Bom Fim",
+                      "state": "RS",
+                      "city": "Porto Alegre",
+                      "country": "Brasil",
+                      "ibge": 4314902
+                    }
+                  },
+                  "financialData": {
+                    "isWorking": true,
+                    "selfEmployed": false,
+                    "profession": "Investidor",
+                    "workPlaceName": "Warren Investimentos",
+                    "workPlaceCNPJ": "92875780000131",
+                    "monthlyIncome": 10000,
+                    "movableProperty": 1000000,
+                    "immovableProperty": 1000000,
+                    "totalInvested": 100000000,
+                    "privatePensionTotalInvested": 10000,
+                    "pep": false,
+                    "qualifiedInvestor": true,
+                    "usPerson": false
+                  },
+                  "documentData": {
+                    "type": 0,
+                    "issuingAuthority": "SSP",
+                    "state": "SP",
+                    "number": "00000000",
+                    "issueDate": "1990-01-01T00:00:00",
+                    "motherName": "Mãe do cliente"
+                  }
+                },
+                "customerSuitabilty": {
+                  "questionnaire": {
+                    "id": "v3.0.0",
+                    "answers": [
+                      {
+                        "questionId": "question_investment_knowledge",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_education",
+                        "answer": [
+                          "postgraduate_specialization"
+                        ]
+                      },
+                      {
+                        "questionId": "question_motivation",
+                        "answer": [
+                          "B"
+                        ]
+                      },
+                      {
+                        "questionId": "question_investment_duration",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_economy",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_frequency",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_products",
+                        "answer": [
+                          "D",
+                          "E",
+                          "F"
+                        ]
+                      },
+                      {
+                        "questionId": "question_total_invested_last_year",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_current_products",
+                        "answer": [
+                          "D",
+                          "E",
+                          "F"
+                        ]
+                      },
+                      {
+                        "questionId": "question_earnings",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_total_invested",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_investment_duration_warren",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_assets",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_working",
+                        "answer": [
+                          "B"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerFull"
+              },
+              "example": {
+                "customer": {
+                  "contactData": {
+                    "fullName": "Nome do Cliente",
+                    "document": "00000000000",
+                    "email": "email@email.com",
+                    "phone": {
+                      "countryCode": "55",
+                      "areaCode": 15,
+                      "number": 999999999
+                    }
+                  },
+                  "personalData": {
+                    "birthDate": "2005-07-02T00:00:00",
+                    "gender": 0,
+                    "maritalStatus": 5,
+                    "spouseName": "Nome do Cônjuge",
+                    "spouseDocument": "11111111111",
+                    "education": 3,
+                    "nationalityType": 0,
+                    "homeTown": "Porto Alegre",
+                    "homeState": "SP",
+                    "homeCountry": "BRA",
+                    "address": {
+                      "zipCode": "90035191",
+                      "street": "Avenida Osvaldo Aranha",
+                      "number": 720,
+                      "complement": "Conj 201",
+                      "neighborhood": "Bom Fim",
+                      "state": "RS",
+                      "city": "Porto Alegre",
+                      "country": "Brasil",
+                      "ibge": 4314902
+                    }
+                  },
+                  "financialData": {
+                    "isWorking": true,
+                    "selfEmployed": false,
+                    "profession": "Investidor",
+                    "workPlaceName": "Warren Investimentos",
+                    "workPlaceCNPJ": "92875780000131",
+                    "monthlyIncome": 10000,
+                    "movableProperty": 1000000,
+                    "immovableProperty": 1000000,
+                    "totalInvested": 100000000,
+                    "privatePensionTotalInvested": 10000,
+                    "pep": false,
+                    "qualifiedInvestor": true,
+                    "usPerson": false
+                  },
+                  "documentData": {
+                    "type": 0,
+                    "issuingAuthority": "SSP",
+                    "state": "SP",
+                    "number": "00000000",
+                    "issueDate": "1990-01-01T00:00:00",
+                    "motherName": "Mãe do cliente"
+                  }
+                },
+                "customerSuitabilty": {
+                  "questionnaire": {
+                    "id": "v3.0.0",
+                    "answers": [
+                      {
+                        "questionId": "question_investment_knowledge",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_education",
+                        "answer": [
+                          "postgraduate_specialization"
+                        ]
+                      },
+                      {
+                        "questionId": "question_motivation",
+                        "answer": [
+                          "B"
+                        ]
+                      },
+                      {
+                        "questionId": "question_investment_duration",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_economy",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_frequency",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_products",
+                        "answer": [
+                          "D",
+                          "E",
+                          "F"
+                        ]
+                      },
+                      {
+                        "questionId": "question_total_invested_last_year",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_current_products",
+                        "answer": [
+                          "D",
+                          "E",
+                          "F"
+                        ]
+                      },
+                      {
+                        "questionId": "question_earnings",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_total_invested",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_investment_duration_warren",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_assets",
+                        "answer": [
+                          "C"
+                        ]
+                      },
+                      {
+                        "questionId": "question_working",
+                        "answer": [
+                          "B"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerFullResult"
+                },
+                "example": {
+                  "customer": {
+                    "contactData": {
+                      "fullName": "Nome do Cliente",
+                      "document": "00000000000",
+                      "email": "email@email.com",
+                      "phone": {
+                        "countryCode": "55",
+                        "areaCode": 15,
+                        "number": 999999999
+                      }
+                    },
+                    "personalData": {
+                      "birthDate": "2005-07-02T00:00:00",
+                      "gender": 0,
+                      "maritalStatus": 5,
+                      "spouseName": "Nome do Cônjuge",
+                      "spouseDocument": "11111111111",
+                      "education": 3,
+                      "nationalityType": 0,
+                      "homeTown": "Porto Alegre",
+                      "homeState": "SP",
+                      "homeCountry": "BRA",
+                      "address": {
+                        "zipCode": "90035191",
+                        "street": "Avenida Osvaldo Aranha",
+                        "number": 720,
+                        "complement": "Conj 201",
+                        "neighborhood": "Bom Fim",
+                        "state": "RS",
+                        "city": "Porto Alegre",
+                        "country": "Brasil",
+                        "ibge": 4314902
+                      }
+                    },
+                    "financialData": {
+                      "isWorking": true,
+                      "selfEmployed": false,
+                      "profession": "Investidor",
+                      "workPlaceName": "Warren Investimentos",
+                      "workPlaceCNPJ": "92875780000131",
+                      "monthlyIncome": 10000,
+                      "movableProperty": 1000000,
+                      "immovableProperty": 1000000,
+                      "totalInvested": 100000000,
+                      "privatePensionTotalInvested": 10000,
+                      "pep": false,
+                      "qualifiedInvestor": true,
+                      "usPerson": false
+                    },
+                    "documentData": {
+                      "type": 0,
+                      "issuingAuthority": "SSP",
+                      "state": "SP",
+                      "number": "00000000",
+                      "issueDate": "1990-01-01T00:00:00",
+                      "motherName": "Mãe do cliente"
+                    }
+                  },
+                  "suitability": {
+                    "customerApiId": "478e2a19-83e5-4f2a-894d-d6aa481090b4",
+                    "suitabilityId": "5e6dad26-76de-4934-baa2-4da4ccc72f67",
+                    "resultProfile": "Agresssivo"
+                  },
+                  "state": "Error"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerFullResult"
+                },
+                "example": {
+                  "customer": {
+                    "contactData": {
+                      "fullName": "Nome do Cliente",
+                      "document": "00000000000",
+                      "email": "email@email.com",
+                      "phone": {
+                        "countryCode": "55",
+                        "areaCode": 15,
+                        "number": 999999999
+                      }
+                    },
+                    "personalData": {
+                      "birthDate": "2005-07-02T00:00:00",
+                      "gender": 0,
+                      "maritalStatus": 5,
+                      "spouseName": "Nome do Cônjuge",
+                      "spouseDocument": "11111111111",
+                      "education": 3,
+                      "nationalityType": 0,
+                      "homeTown": "Porto Alegre",
+                      "homeState": "SP",
+                      "homeCountry": "BRA",
+                      "address": {
+                        "zipCode": "90035191",
+                        "street": "Avenida Osvaldo Aranha",
+                        "number": 720,
+                        "complement": "Conj 201",
+                        "neighborhood": "Bom Fim",
+                        "state": "RS",
+                        "city": "Porto Alegre",
+                        "country": "Brasil",
+                        "ibge": 4314902
+                      }
+                    },
+                    "financialData": {
+                      "isWorking": true,
+                      "selfEmployed": false,
+                      "profession": "Investidor",
+                      "workPlaceName": "Warren Investimentos",
+                      "workPlaceCNPJ": "92875780000131",
+                      "monthlyIncome": 10000,
+                      "movableProperty": 1000000,
+                      "immovableProperty": 1000000,
+                      "totalInvested": 100000000,
+                      "privatePensionTotalInvested": 10000,
+                      "pep": false,
+                      "qualifiedInvestor": true,
+                      "usPerson": false
+                    },
+                    "documentData": {
+                      "type": 0,
+                      "issuingAuthority": "SSP",
+                      "state": "SP",
+                      "number": "00000000",
+                      "issueDate": "1990-01-01T00:00:00",
+                      "motherName": "Mãe do cliente"
+                    }
+                  },
+                  "suitability": {
+                    "customerApiId": "478e2a19-83e5-4f2a-894d-d6aa481090b4",
+                    "suitabilityId": "5e6dad26-76de-4934-baa2-4da4ccc72f67",
+                    "resultProfile": "Agresssivo"
+                  },
+                  "state": "Error"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerFullResult"
+                },
+                "example": {
+                  "customer": {
+                    "contactData": {
+                      "fullName": "Nome do Cliente",
+                      "document": "00000000000",
+                      "email": "email@email.com",
+                      "phone": {
+                        "countryCode": "55",
+                        "areaCode": 15,
+                        "number": 999999999
+                      }
+                    },
+                    "personalData": {
+                      "birthDate": "2005-07-02T00:00:00",
+                      "gender": 0,
+                      "maritalStatus": 5,
+                      "spouseName": "Nome do Cônjuge",
+                      "spouseDocument": "11111111111",
+                      "education": 3,
+                      "nationalityType": 0,
+                      "homeTown": "Porto Alegre",
+                      "homeState": "SP",
+                      "homeCountry": "BRA",
+                      "address": {
+                        "zipCode": "90035191",
+                        "street": "Avenida Osvaldo Aranha",
+                        "number": 720,
+                        "complement": "Conj 201",
+                        "neighborhood": "Bom Fim",
+                        "state": "RS",
+                        "city": "Porto Alegre",
+                        "country": "Brasil",
+                        "ibge": 4314902
+                      }
+                    },
+                    "financialData": {
+                      "isWorking": true,
+                      "selfEmployed": false,
+                      "profession": "Investidor",
+                      "workPlaceName": "Warren Investimentos",
+                      "workPlaceCNPJ": "92875780000131",
+                      "monthlyIncome": 10000,
+                      "movableProperty": 1000000,
+                      "immovableProperty": 1000000,
+                      "totalInvested": 100000000,
+                      "privatePensionTotalInvested": 10000,
+                      "pep": false,
+                      "qualifiedInvestor": true,
+                      "usPerson": false
+                    },
+                    "documentData": {
+                      "type": 0,
+                      "issuingAuthority": "SSP",
+                      "state": "SP",
+                      "number": "00000000",
+                      "issueDate": "1990-01-01T00:00:00",
+                      "motherName": "Mãe do cliente"
+                    }
+                  },
+                  "suitability": {
+                    "customerApiId": "478e2a19-83e5-4f2a-894d-d6aa481090b4",
+                    "suitabilityId": "5e6dad26-76de-4934-baa2-4da4ccc72f67",
+                    "resultProfile": "Agresssivo"
+                  },
+                  "state": "Error"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/step-by-step/signup": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "post-customer-signup",
+        "summary": "Cadastrar cliente por etapas",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupData"
+              },
+              "example": {
+                "contactData": {
+                  "fullName": "Nome do Cliente",
+                  "document": "00000000000",
+                  "email": "email@email.com",
+                  "phone": {
+                    "countryCode": "55",
+                    "areaCode": 15,
+                    "number": 999999999
+                  }
+                },
+                "password": "********"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupData"
+              },
+              "example": {
+                "contactData": {
+                  "fullName": "Nome do Cliente",
+                  "document": "00000000000",
+                  "email": "email@email.com",
+                  "phone": {
+                    "countryCode": "55",
+                    "areaCode": 15,
+                    "number": 999999999
+                  }
+                },
+                "password": "********"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupData"
+              },
+              "example": {
+                "contactData": {
+                  "fullName": "Nome do Cliente",
+                  "document": "00000000000",
+                  "email": "email@email.com",
+                  "phone": {
+                    "countryCode": "55",
+                    "areaCode": 15,
+                    "number": 999999999
+                  }
+                },
+                "password": "********"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/{apiId}/step-by-step/personal": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "post-customer-personal",
+        "summary": "Cadastrar dados pessoais",
+        "parameters": [
+          {
+            "name": "apiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalData"
+              },
+              "example": {
+                "birthDate": "2005-07-02T00:00:00",
+                "gender": 0,
+                "maritalStatus": 5,
+                "spouseName": "Nome do Cônjuge",
+                "spouseDocument": "11111111111",
+                "education": 3,
+                "nationalityType": 0,
+                "homeTown": "Porto Alegre",
+                "homeState": "SP",
+                "homeCountry": "BRA",
+                "address": {
+                  "zipCode": "90035191",
+                  "street": "Avenida Osvaldo Aranha",
+                  "number": 720,
+                  "complement": "Conj 201",
+                  "neighborhood": "Bom Fim",
+                  "state": "RS",
+                  "city": "Porto Alegre",
+                  "country": "Brasil",
+                  "ibge": 4314902
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalData"
+              },
+              "example": {
+                "birthDate": "2005-07-02T00:00:00",
+                "gender": 0,
+                "maritalStatus": 5,
+                "spouseName": "Nome do Cônjuge",
+                "spouseDocument": "11111111111",
+                "education": 3,
+                "nationalityType": 0,
+                "homeTown": "Porto Alegre",
+                "homeState": "SP",
+                "homeCountry": "BRA",
+                "address": {
+                  "zipCode": "90035191",
+                  "street": "Avenida Osvaldo Aranha",
+                  "number": 720,
+                  "complement": "Conj 201",
+                  "neighborhood": "Bom Fim",
+                  "state": "RS",
+                  "city": "Porto Alegre",
+                  "country": "Brasil",
+                  "ibge": 4314902
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalData"
+              },
+              "example": {
+                "birthDate": "2005-07-02T00:00:00",
+                "gender": 0,
+                "maritalStatus": 5,
+                "spouseName": "Nome do Cônjuge",
+                "spouseDocument": "11111111111",
+                "education": 3,
+                "nationalityType": 0,
+                "homeTown": "Porto Alegre",
+                "homeState": "SP",
+                "homeCountry": "BRA",
+                "address": {
+                  "zipCode": "90035191",
+                  "street": "Avenida Osvaldo Aranha",
+                  "number": 720,
+                  "complement": "Conj 201",
+                  "neighborhood": "Bom Fim",
+                  "state": "RS",
+                  "city": "Porto Alegre",
+                  "country": "Brasil",
+                  "ibge": 4314902
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/{apiId}/step-by-step/financial": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "post-customer-financial",
+        "summary": "Cadastrar dados financeiros",
+        "parameters": [
+          {
+            "name": "apiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinancialData"
+              },
+              "example": {
+                "isWorking": true,
+                "selfEmployed": false,
+                "profession": "Investidor",
+                "workPlaceName": "Warren Investimentos",
+                "workPlaceCNPJ": "92875780000131",
+                "monthlyIncome": 10000,
+                "movableProperty": 1000000,
+                "immovableProperty": 1000000,
+                "totalInvested": 100000000,
+                "privatePensionTotalInvested": 10000,
+                "pep": false,
+                "qualifiedInvestor": true,
+                "usPerson": false
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinancialData"
+              },
+              "example": {
+                "isWorking": true,
+                "selfEmployed": false,
+                "profession": "Investidor",
+                "workPlaceName": "Warren Investimentos",
+                "workPlaceCNPJ": "92875780000131",
+                "monthlyIncome": 10000,
+                "movableProperty": 1000000,
+                "immovableProperty": 1000000,
+                "totalInvested": 100000000,
+                "privatePensionTotalInvested": 10000,
+                "pep": false,
+                "qualifiedInvestor": true,
+                "usPerson": false
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinancialData"
+              },
+              "example": {
+                "isWorking": true,
+                "selfEmployed": false,
+                "profession": "Investidor",
+                "workPlaceName": "Warren Investimentos",
+                "workPlaceCNPJ": "92875780000131",
+                "monthlyIncome": 10000,
+                "movableProperty": 1000000,
+                "immovableProperty": 1000000,
+                "totalInvested": 100000000,
+                "privatePensionTotalInvested": 10000,
+                "pep": false,
+                "qualifiedInvestor": true,
+                "usPerson": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/{apiId}/step-by-step/document": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "post-customer-document",
+        "summary": "Cadastrar dados de documento",
+        "parameters": [
+          {
+            "name": "apiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentData"
+              },
+              "example": {
+                "type": 0,
+                "issuingAuthority": "SSP",
+                "state": "SP",
+                "number": "00000000",
+                "issueDate": "1990-01-01T00:00:00",
+                "motherName": "Mãe do cliente"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentData"
+              },
+              "example": {
+                "type": 0,
+                "issuingAuthority": "SSP",
+                "state": "SP",
+                "number": "00000000",
+                "issueDate": "1990-01-01T00:00:00",
+                "motherName": "Mãe do cliente"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentData"
+              },
+              "example": {
+                "type": 0,
+                "issuingAuthority": "SSP",
+                "state": "SP",
+                "number": "00000000",
+                "issueDate": "1990-01-01T00:00:00",
+                "motherName": "Mãe do cliente"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/{apiId}/step-by-step/suitability": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "post-customer-suitability",
+        "summary": "Cadastrar perfil de suitability",
+        "parameters": [
+          {
+            "name": "apiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuitabilityRequest"
+              },
+              "example": {
+                "questionnaire": {
+                  "id": "v3.0.0",
+                  "answers": [
+                    {
+                      "questionId": "question_investment_knowledge",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_education",
+                      "answer": [
+                        "postgraduate_specialization"
+                      ]
+                    },
+                    {
+                      "questionId": "question_motivation",
+                      "answer": [
+                        "B"
+                      ]
+                    },
+                    {
+                      "questionId": "question_investment_duration",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_economy",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_frequency",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_products",
+                      "answer": [
+                        "D",
+                        "E",
+                        "F"
+                      ]
+                    },
+                    {
+                      "questionId": "question_total_invested_last_year",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_current_products",
+                      "answer": [
+                        "D",
+                        "E",
+                        "F"
+                      ]
+                    },
+                    {
+                      "questionId": "question_earnings",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_total_invested",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_investment_duration_warren",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_assets",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_working",
+                      "answer": [
+                        "B"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuitabilityRequest"
+              },
+              "example": {
+                "questionnaire": {
+                  "id": "v3.0.0",
+                  "answers": [
+                    {
+                      "questionId": "question_investment_knowledge",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_education",
+                      "answer": [
+                        "postgraduate_specialization"
+                      ]
+                    },
+                    {
+                      "questionId": "question_motivation",
+                      "answer": [
+                        "B"
+                      ]
+                    },
+                    {
+                      "questionId": "question_investment_duration",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_economy",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_frequency",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_products",
+                      "answer": [
+                        "D",
+                        "E",
+                        "F"
+                      ]
+                    },
+                    {
+                      "questionId": "question_total_invested_last_year",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_current_products",
+                      "answer": [
+                        "D",
+                        "E",
+                        "F"
+                      ]
+                    },
+                    {
+                      "questionId": "question_earnings",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_total_invested",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_investment_duration_warren",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_assets",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_working",
+                      "answer": [
+                        "B"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuitabilityRequest"
+              },
+              "example": {
+                "questionnaire": {
+                  "id": "v3.0.0",
+                  "answers": [
+                    {
+                      "questionId": "question_investment_knowledge",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_education",
+                      "answer": [
+                        "postgraduate_specialization"
+                      ]
+                    },
+                    {
+                      "questionId": "question_motivation",
+                      "answer": [
+                        "B"
+                      ]
+                    },
+                    {
+                      "questionId": "question_investment_duration",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_economy",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_frequency",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_products",
+                      "answer": [
+                        "D",
+                        "E",
+                        "F"
+                      ]
+                    },
+                    {
+                      "questionId": "question_total_invested_last_year",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_current_products",
+                      "answer": [
+                        "D",
+                        "E",
+                        "F"
+                      ]
+                    },
+                    {
+                      "questionId": "question_earnings",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_total_invested",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_investment_duration_warren",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_assets",
+                      "answer": [
+                        "C"
+                      ]
+                    },
+                    {
+                      "questionId": "question_working",
+                      "answer": [
+                        "B"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/suitability/questionnaire/current": {
+      "get": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "get-current-suitability-questionnaire",
+        "summary": "Obter questionário de suitability atual",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitabilityQuestionnaire"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitabilityQuestionnaire"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuitabilityQuestionnaire"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/{apiId}/bankaccount": {
+      "post": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "post-customer-bankaccount",
+        "summary": "Cadastrar conta bancária",
+        "parameters": [
+          {
+            "name": "apiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankAccount"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankAccount"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankAccount"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboarding/customers/{apiId}/register-state": {
+      "get": {
+        "tags": [
+          "Onboarding"
+        ],
+        "operationId": "get-customer-register-state",
+        "summary": "Obter estado de cadastro",
+        "parameters": [
+          {
+            "name": "apiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResponseSuccess"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Action": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "complement": {
+            "type": "string",
+            "nullable": true
+          },
+          "neighborhood": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "ibge": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiResponseError": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "errorMessages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BankAccount": {
+        "type": "object",
+        "properties": {
+          "bankCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "agency": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "digit": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContactData": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "document": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "advisorEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "$ref": "#/components/schemas/Phone"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Contract": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "action": {
+            "$ref": "#/components/schemas/Action"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CoreCustomerBrandDto": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "document": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerBankAccountDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CoreCustomerBrandDtoApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "$ref": "#/components/schemas/CoreCustomerBrandDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactData": {
+            "$ref": "#/components/schemas/ContactData"
+          },
+          "personalData": {
+            "$ref": "#/components/schemas/PersonalData"
+          },
+          "financialData": {
+            "$ref": "#/components/schemas/FinancialData"
+          },
+          "documentData": {
+            "$ref": "#/components/schemas/DocumentData"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerBankAccountDto": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "agency": {
+            "type": "string",
+            "nullable": true
+          },
+          "agencyDigit": {
+            "type": "string",
+            "nullable": true
+          },
+          "account": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountDigit": {
+            "type": "string",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "isValid": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerBrandSearchResponseDto": {
+        "type": "object",
+        "properties": {
+          "customers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreCustomerBrandDto"
+            },
+            "nullable": true
+          },
+          "totalRecords": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerFull": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "customerSuitabilty": {
+            "$ref": "#/components/schemas/SuitabilityRequest"
+          },
+          "bankAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BankAccount"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerFullResult": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "suitability": {
+            "$ref": "#/components/schemas/SuitabilityResult"
+          },
+          "state": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "result": {
+            "$ref": "#/components/schemas/CustomerFullStatus"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerFullStatus": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentData": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/DocumentType"
+          },
+          "issuingAuthority": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "number": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "motherName": {
+            "type": "string",
+            "nullable": true
+          },
+          "securityNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DocumentType": {
+        "enum": [
+          "RG",
+          "CNH"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EducationLevel": {
+        "enum": [
+          "EarlyChildhoodEducation",
+          "ElementarySchool",
+          "HighSchool",
+          "HigherEducation",
+          "PostgraduateOrSpecialization",
+          "MastersOrPhD"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "FinancialData": {
+        "type": "object",
+        "properties": {
+          "isWorking": {
+            "type": "boolean"
+          },
+          "selfEmployed": {
+            "type": "boolean"
+          },
+          "profession": {
+            "type": "string",
+            "nullable": true
+          },
+          "workPlaceName": {
+            "type": "string",
+            "nullable": true
+          },
+          "workPlaceCNPJ": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthlyIncome": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "movableProperty": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "immovableProperty": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "totalInvested": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "privatePensionTotalInvested": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pep": {
+            "type": "boolean"
+          },
+          "qualifiedInvestor": {
+            "type": "boolean"
+          },
+          "usPerson": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Gender": {
+        "enum": [
+          "Male",
+          "Female"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MaritalStatus": {
+        "enum": [
+          "NotInformed",
+          "Single",
+          "LegallySeparated",
+          "Widowed",
+          "Divorced",
+          "MarriedToNativeBrazilian",
+          "MarriedToNaturalizedBrazilian",
+          "MarriedToForeigner",
+          "StableUnion"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "NationalityType": {
+        "enum": [
+          "NativeBrazilian",
+          "NaturalizedBrazilian",
+          "Foreigner"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "PersonalData": {
+        "type": "object",
+        "properties": {
+          "birthDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "gender": {
+            "$ref": "#/components/schemas/Gender"
+          },
+          "maritalStatus": {
+            "$ref": "#/components/schemas/MaritalStatus"
+          },
+          "spouseName": {
+            "type": "string",
+            "nullable": true
+          },
+          "spouseDocument": {
+            "type": "string",
+            "nullable": true
+          },
+          "education": {
+            "$ref": "#/components/schemas/EducationLevel"
+          },
+          "nationalityType": {
+            "$ref": "#/components/schemas/NationalityType"
+          },
+          "homeTown": {
+            "type": "string",
+            "nullable": true
+          },
+          "homeState": {
+            "type": "string",
+            "nullable": true
+          },
+          "homeCountry": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Phone": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "areaCode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "number": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "extension": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SignupData": {
+        "type": "object",
+        "properties": {
+          "contactData": {
+            "$ref": "#/components/schemas/ContactData"
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringApiResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringStringKeyValuePair": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SuitabilityAnswer": {
+        "type": "object",
+        "properties": {
+          "questionId": {
+            "type": "string",
+            "nullable": true
+          },
+          "question": {
+            "type": "string",
+            "nullable": true
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StringStringKeyValuePair"
+            },
+            "nullable": true
+          },
+          "answer": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SuitabilityQuestionnaire": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SuitabilityAnswer"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SuitabilityRequest": {
+        "type": "object",
+        "properties": {
+          "questionnaire": {
+            "$ref": "#/components/schemas/SuitabilityQuestionnaire"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SuitabilityResult": {
+        "type": "object",
+        "properties": {
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "suitabilityId": {
+            "type": "string",
+            "nullable": true
+          },
+          "resultProfile": {
+            "type": "string",
+            "nullable": true
+          },
+          "answers": {
+            "type": "object",
+            "additionalProperties": {},
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Tenant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultPartnerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "featuresEnabled": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "isAdmin": {
+            "type": "boolean",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TermsOfUse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Contract"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "parameters": {
+      "X-Tenant-Id": {
+        "name": "X-Tenant-Id",
+        "in": "header",
+        "description": "Identificador único do cliente",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Authorization": []
+    }
+  ]
+}

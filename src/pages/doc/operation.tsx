@@ -1,11 +1,11 @@
 import { OpenApiJson, OpenApiParameter, Operation, ParsedProperty, ParsedSchema } from "@/types";
 import OperationTitle from "./operation-title";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ArrowDownToLine, ArrowUpFromLine, Terminal } from "lucide-react";
+import { ArrowDownToLine, ArrowUpFromLine, Terminal, Clipboard, CheckCheck } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import ParamGroup from "./param-group";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import PropertiesGroup from "./properties-group";
 import MarkdownRenderer from "@/utils/MarkdownRenderer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,14 +15,15 @@ import generateCodeSnippetFromOpenAPI from "./helpers/generateCodeSnippetFromOpe
 import { transformSecuritySchemes } from "./helpers/transformeSecuritySchemes";
 
 interface OperationProps {
-  doc: Operation | null;
-  openapi: OpenApiJson | null
+  readonly doc: Operation | null;
+  readonly openapi: OpenApiJson | null
 }
 
 const SnippetTabsList = <TabsList className="h-12 w-full">
   <TabsTrigger value="curl" className="h-9 flex-1 min-w-0">curl</TabsTrigger>
   <TabsTrigger value="python" className="h-9 flex-1 min-w-0">python</TabsTrigger>
   <TabsTrigger value="node" className="h-9 flex-1 min-w-0">node</TabsTrigger>
+  <TabsTrigger value="csharp" className="h-9 flex-1 min-w-0">c#</TabsTrigger>
 </TabsList>;
 
 function DocSidebar(
@@ -33,7 +34,8 @@ function DocSidebar(
   }[],
   curlSnippet: string,
   pythonSnippet: string,
-  nodeSnippet: string
+  nodeSnippet: string,
+  csharpSnippet: string
 ) {
   return <div className="sidebar sticky top-16">
     <PropertiesGroup title="SECURITY" properties={securityParameters} />
@@ -42,6 +44,7 @@ function DocSidebar(
       {CurlSnippetContent(curlSnippet)}
       {PythonSnippetContent(pythonSnippet)}
       {NodeSnippetContent(nodeSnippet)}
+      {CSharpSnippetContent(csharpSnippet)}
     </Tabs>
   </div>;
 }
@@ -69,6 +72,16 @@ function CurlSnippetContent(curlSnippet: string) {
     <SyntaxHighlighter showLineNumbers wrapLines language="typescript" style={nightOwl}>
       {curlSnippet}
     </SyntaxHighlighter>
+  </TabsContent>;
+}
+
+function CSharpSnippetContent(csharpSnippet: string) {
+  return <TabsContent value="csharp" className="py-4">
+    <div className="rounded-md relative">
+      <SyntaxHighlighter showLineNumbers wrapLines language="csharp" style={nightOwl}>
+        {csharpSnippet}
+      </SyntaxHighlighter>
+    </div>
   </TabsContent>;
 }
 
@@ -112,21 +125,45 @@ function Description(doc: Operation | null) {
 }
 
 function PathInfo(doc: Operation | null) {
-  return <Alert className={`my-4 alert alert-${doc?.method} py-8`}>
-    <AlertDescription className="flex items-center">
-      <Terminal className="h6 w-6 mr-4" />
-      <span className={`method ${doc?.method} mr-4`}>{doc?.method}</span>
-      <code>{doc?.path as string}</code>
-    </AlertDescription>
-  </Alert>;
+  const [isHovered, setIsHovered] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(doc?.path as string);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 3000);
+  };
+
+  return (
+    <Alert 
+      className={`my-4 alert alert-${doc?.method} py-8 box-border`} 
+      onMouseEnter={() => setIsHovered(true)} 
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <AlertDescription className="flex items-center max-w-screen-md">
+        <Terminal className="h6 w-6 mr-4" />
+        <span className={`method ${doc?.method} mr-4`}>{doc?.method}</span>
+        <code className="text-xs">{doc?.path as string}</code>
+        {(isHovered && !isCopied) && (
+          <button
+            onClick={handleCopy}
+            className="ml-2 p-1 border rounded flex items-center absolute right-3"
+          >
+            <Clipboard className="h-4 w-4" />
+          </button>
+        )}
+        {isCopied && <CheckCheck className="h-6 w-6 text-green-500 absolute right-3" />}
+      </AlertDescription>
+    </Alert>
+  );
 }
 
 function PythonSnippet(openapi: OpenApiJson | null, doc: Operation | null) {
   return useMemo(
     () => generateCodeSnippetFromOpenAPI({
       openAPIJson: openapi,
-      path: doc?.path || "",
-      method: doc?.method || "",
+      path: doc?.path ?? "",
+      method: doc?.method ?? "",
       language: "python"
     }),
     [openapi, doc?.path, doc?.method]);
@@ -136,8 +173,8 @@ function CurlSnippet(openapi: OpenApiJson | null, doc: Operation | null) {
   return useMemo(
     () => generateCodeSnippetFromOpenAPI({
       openAPIJson: openapi,
-      path: doc?.path || "",
-      method: doc?.method || "",
+      path: doc?.path ?? "",
+      method: doc?.method ?? "",
       language: "curl"
     }),
     [openapi, doc?.path, doc?.method]);
@@ -147,15 +184,26 @@ function NodeSnippet(openapi: OpenApiJson | null, doc: Operation | null) {
   return useMemo(
     () => generateCodeSnippetFromOpenAPI({
       openAPIJson: openapi,
-      path: doc?.path || "",
-      method: doc?.method || "",
+      path: doc?.path ?? "",
+      method: doc?.method ?? "",
       language: "node"
     }),
     [openapi, doc?.path, doc?.method]);
 }
 
+function CSharpSnippet(openapi: OpenApiJson | null, doc: Operation | null) {
+  return useMemo(
+    () => generateCodeSnippetFromOpenAPI({
+      openAPIJson: openapi,
+      path: doc?.path ?? "",
+      method: doc?.method ?? "",
+      language: "csharp"
+    }),
+    [openapi, doc?.path, doc?.method]);
+}
+
 function SecurityParameters(doc: Operation | null) {
-  return useMemo(() => transformSecuritySchemes(doc?.components?.securitySchemes || {}),
+  return useMemo(() => transformSecuritySchemes(doc?.components?.securitySchemes ?? {}),
     [doc?.components?.securitySchemes]
   );
 }
@@ -163,10 +211,10 @@ function SecurityParameters(doc: Operation | null) {
 function HeaderParameters(doc: Operation | null) {
   return useMemo(
     () => [
-      ...doc?.details?.parameters?.filter((parameter) => parameter.in === "header") || [],
-      ...Object.entries(doc?.components?.parameters || {})
+      ...doc?.details?.parameters?.filter((parameter) => parameter.in === "header") ?? [],
+      ...Object.entries(doc?.components?.parameters ?? {})
         .filter(([, parameter]) => parameter.in === "header")
-        .map(([, value]) => value) || []
+        .map(([, value]) => value) ?? []
     ],
     [doc?.details?.parameters, doc?.components?.parameters]
   );
@@ -174,14 +222,14 @@ function HeaderParameters(doc: Operation | null) {
 
 function PathParameters(doc: Operation | null) {
   return useMemo(
-    () => doc?.details?.parameters?.filter((parameter) => parameter.in === "path") || [],
+    () => doc?.details?.parameters?.filter((parameter) => parameter.in === "path") ?? [],
     [doc?.details?.parameters]
   );
 }
 
 function QueryParameters(doc: Operation | null) {
   return useMemo(
-    () => doc?.details?.parameters?.filter((parameter) => parameter.in === "query") || [],
+    () => doc?.details?.parameters?.filter((parameter) => parameter.in === "query") ?? [],
     [doc?.details?.parameters]
   );
 }
@@ -201,18 +249,67 @@ function ResponsePropertiesGroup(doc: Operation | null) {
         <ArrowDownToLine />
         <h3 className="text-2xl">Informações da resposta</h3>
       </div>
-      {responseProperties}
+      {responseProperties && responseProperties.length > 0 ? responseProperties : (
+        <div className="mt-4 p-4 bg-muted rounded-md">
+          <p>Resposta disponível, mas o formato não pôde ser processado completamente.</p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Consulte a documentação completa da API para mais detalhes sobre o formato de resposta.
+          </p>
+        </div>
+      )}
     </>
   )
 }
 
-function ResponseProperty(schema: ParsedSchema) {
+function ResponseProperty(schema: Readonly<ParsedSchema>) {
+  // Extrair o tipo principal da resposta a partir da referência
+  const extractMainType = (responses?: ParsedProperty[]) => {
+    if (!responses || responses.length === 0) {
+      return null;
+    }
+    
+    // Tenta encontrar uma propriedade com $ref ou um tipo conhecido
+    const refProperty = responses.find(prop => 
+      prop.name && prop.name.includes('$ref')
+    );
+    
+    if (refProperty) {
+      // Extrai o nome do tipo da referência
+      const refValue = refProperty.description || '';
+      const match = refValue.match(/#\/components\/schemas\/([^`[\]]+)/);
+      if (match) {
+        return match[1];
+      }
+      
+      // Tenta extrair o tipo de uma referência complexa
+      const complexMatch = refValue.match(/([^`[]+)`1\[\[([^,]+)/);
+      if (complexMatch) {
+        return `${complexMatch[1]} de ${complexMatch[2].split('.').pop()}`;
+      }
+    }
+    
+    return null;
+  };
+
+  const mainType = extractMainType(schema.responses);
+
   return <div className="mt-8">
     <div className="flex items-center gap-4">
       <Badge variant="outline" className={`status-${schema.statusCode}`}>{schema.statusCode}</Badge>
       <div className="font-semibold">{schema.statusDescription}</div>
     </div>
-    <PropertiesGroup key={schema.statusCode} properties={schema.responses ?? []} />
+    {mainType && (
+      <div className="mt-2 text-sm text-muted-foreground">
+        <span className="font-medium">Tipo de resposta:</span> {mainType}
+      </div>
+    )}
+    {schema.responses && schema.responses.length > 0 ? (
+      <PropertiesGroup key={schema.statusCode} properties={schema.responses ?? []} />
+    ) : (
+      <div className="mt-2 p-3 bg-muted/50 rounded text-sm">
+        Resposta disponível no formato padrão da API.
+      </div>
+    )}
   </div>;
 }
 
@@ -264,6 +361,7 @@ const Doc: React.FC<OperationProps> = ({ doc, openapi }) => {
   const nodeSnippet = NodeSnippet(openapi, doc);
   const curlSnippet = CurlSnippet(openapi, doc);
   const pythonSnippet = PythonSnippet(openapi, doc);
+  const csharpSnippet = CSharpSnippet(openapi, doc);
 
   return (
     <div className="gde-operation--page doc-container">
@@ -277,7 +375,7 @@ const Doc: React.FC<OperationProps> = ({ doc, openapi }) => {
         {DocTabs(doc, headerParameters, queryParameters, pathParameters)}
       </div>
       <div className="sidebar">
-        {DocSidebar(securityParameters, curlSnippet, pythonSnippet, nodeSnippet)}
+        {DocSidebar(securityParameters, curlSnippet, pythonSnippet, nodeSnippet, csharpSnippet)}
       </div>
     </div>
   );

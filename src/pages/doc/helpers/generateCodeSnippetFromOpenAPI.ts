@@ -8,50 +8,153 @@ type SnippetParams = {
 }
 
 function generateCurlSnippet(method: string, url: string, headers: Record<string, string>, body: unknown) {
-  const headerString = Object.entries(headers)
-    .map(([key, value]) => `-H "${key}: ${value}"`)
-    .join(" \\\n  ");
-  const bodyString = body ? `-d '${JSON.stringify(body)}'` : "";
+  const headerString = Object.keys(headers).length > 0 
+    ? Object.entries(headers)
+        .map(([key, value]) => `-H "${key}: ${value}"`)
+        .join(" \\\n  ") + " \\"
+    : "";
+  
+  const bodyString = body ? `-d '${JSON.stringify(body)}' \\` : "";
 
-  return `
-    curl -X ${method.toUpperCase()} \\
-      ${headerString} \\
-      ${bodyString} \\
-      "${url}"
-    `.trim();
+  // Create parts array with only non-empty strings
+  const parts = ["curl -X " + method.toUpperCase()];
+  
+  if (headerString) {
+    parts.push(headerString);
+  }
+  
+  if (bodyString) {
+    parts.push(bodyString);
+  }
+  
+  parts.push(`"${url}"`);
+  
+  // Join parts with proper line continuation
+  return parts.join(" \\\n  ");
 }
 
 function generatePythonSnippet(method: string, url: string, headers: Record<string, string>, body: unknown) {
-  const headerString = Object.entries(headers)
-    .map(([key, value]) => `'${key}': '${value}'`)
-    .join(",\n  ");
-  const bodyString = body ? `, json=${JSON.stringify(body)}` : "";
+  const hasHeaders = Object.keys(headers).length > 0;
+  const headerString = hasHeaders
+    ? Object.entries(headers)
+        .map(([key, value]) => `'${key}': '${value}'`)
+        .join(",\n  ")
+    : "";
+  
+  const bodyString = body ? `json=${JSON.stringify(body)}` : "";
+  
+  // Construct the request line based on what parameters we have
+  let requestLine = `response = requests.${method.toLowerCase()}('${url}'`;
+  if (body) requestLine += `, ${bodyString}`;
+  if (hasHeaders) requestLine += `, headers=headers`;
+  requestLine += ")";
 
-  return `
-    import requests
-    headers = {
-      ${headerString}
-    }
-    response = requests.${method.toLowerCase()}('${url}'${bodyString}, headers=headers)
-    print(response.json())
-    `.trim();
+  // Create parts array with only necessary components
+  const parts = ["import requests"];
+  
+  if (hasHeaders) {
+    parts.push(`headers = {\n  ${headerString}\n}`);
+  }
+  
+  parts.push(requestLine);
+  parts.push("print(response.json())");
+  
+  // Join parts with proper line breaks
+  return parts.join("\n");
 }
 
 function generateNodeSnippet(method: string, url: string, headers: Record<string, string>, body: unknown) {
-  const headerString = Object.entries(headers)
-    .map(([key, value]) => `'${key}': '${value}'`)
-    .join(",\n  ");
-  const bodyString = body ? `, ${JSON.stringify(body)}` : "";
+  const hasHeaders = Object.keys(headers).length > 0;
+  const headerString = hasHeaders
+    ? Object.entries(headers)
+        .map(([key, value]) => `'${key}': '${value}'`)
+        .join(",\n  ")
+    : "";
+  
+  const bodyString = body ? `${JSON.stringify(body)}` : "";
+  
+  // Construct the request line and options based on what parameters we have
+  let requestLine = `axios.${method.toLowerCase()}('${url}'`;
+  const options = [];
+  
+  if (body) {
+    requestLine += `, ${bodyString}`;
+  }
+  
+  if (hasHeaders) {
+    options.push("headers");
+  }
+  
+  if (options.length > 0) {
+    requestLine += `, { ${options.join(", ")} }`;
+  }
+  
+  requestLine += ")";
 
-  return `
-    const axios = require('axios');
-    const headers = {
-      ${headerString}
-    };
-    axios.${method.toLowerCase()}('${url}'${bodyString}, { headers })
-      .then(response => console.log(response.data))
-      .catch(error => console.error(error));
-    `.trim();
+  // Create parts array with only necessary components
+  const parts = ["const axios = require('axios');"];
+  
+  if (hasHeaders) {
+    parts.push(`const headers = {\n  ${headerString}\n};`);
+  }
+  
+  parts.push(`${requestLine}\n  .then(response => console.log(response.data))\n  .catch(error => console.error(error));`);
+  
+  // Join parts with proper line breaks
+  return parts.join("\n");
+}
+
+function generateCSharpSnippet(method: string, url: string, headers: Record<string, string>, body: unknown) {
+  const hasHeaders = Object.keys(headers).length > 0;
+  const headerString = hasHeaders
+    ? Object.entries(headers)
+        .map(([key, value]) => `request.Headers.Add("${key}", "${value}");`)
+        .join("\n    ")
+    : "";
+  
+  const bodyString = body 
+    ? `var content = new StringContent(
+    JsonConvert.SerializeObject(${JSON.stringify(body)}),
+    Encoding.UTF8, 
+    "application/json");
+    request.Content = content;`
+    : "";
+
+  // Create parts array for the request setup
+  const requestParts = [];
+  
+  requestParts.push(`var request = new HttpRequestMessage(HttpMethod.${method.charAt(0).toUpperCase() + method.slice(1).toLowerCase()}, "${url}");`);
+  
+  if (headerString) {
+    requestParts.push(headerString);
+  }
+  
+  if (bodyString) {
+    requestParts.push(bodyString);
+  }
+
+  return `using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+class Program
+{
+  static async Task Main()
+  {
+    using (var client = new HttpClient())
+    {
+      ${requestParts.join("\n      ")}
+
+      var response = await client.SendAsync(request);
+      response.EnsureSuccessStatusCode();
+      
+      var responseBody = await response.Content.ReadAsStringAsync();
+      Console.WriteLine(responseBody);
+    }
+  }
+}`;
 }
 
 const snippets = new Map<string, (method: string, url: string, headers: Record<string, string>, body: unknown) => string>();
@@ -59,7 +162,7 @@ const snippets = new Map<string, (method: string, url: string, headers: Record<s
 snippets.set("curl", generateCurlSnippet);
 snippets.set("python", generatePythonSnippet);
 snippets.set("node", generateNodeSnippet);
-
+snippets.set("csharp", generateCSharpSnippet);
 
 export default function generateCodeSnippetFromOpenAPI({
   openAPIJson,

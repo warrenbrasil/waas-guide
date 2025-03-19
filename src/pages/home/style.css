@@ -9,31 +9,25 @@
 }
 
 .desktop .home-hero--title {
-  @apply text-7xl font-display;
+  @apply text-6xl font-display;
   @apply inline-block;
 }
 
 .dark .home-hero--title {
-  background: -webkit-linear-gradient(45deg, #7209b7, #00f5d4, #ffd60a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  @apply text-ouro;
 }
 
 .light .home-hero--title {
-  background: -webkit-linear-gradient(0deg, #f72585, #b5179e, #7209b7, #560bad, #560bad, #3f37c9, #4361ee, #4895ef);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  @apply text-terracota;
 }
 
 .desktop .home-hero--subtitle {
-  @apply text-6xl;
-  @apply font-light italic ml-4;
-  @apply md:leading-snug underline;
-  @apply font-display;
+  @apply md:leading-snug text-p2;
+  @apply font-text;
 }
 
 .home-hero--description {
-  @apply text-gray-500 md:text-2xl;
+  @apply text-gray-500 md:p2 p4;
   @apply font-semibold md:leading-loose mt-2 md:mt-4;
 }
 

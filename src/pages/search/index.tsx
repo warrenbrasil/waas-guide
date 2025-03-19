@@ -17,11 +17,11 @@ const highlightText = (text: string, searchTerm: string) => {
 
   return parts.map((part, index) =>
     regex.test(part) ? (
-      <span key={index} className="bg-yellow-200 font-bold text-yellow-800 rounded-md">
+      <span key={`${part}-${index}-highlighted`} className="bg-yellow-200 font-bold text-yellow-800 rounded-md">
         {part}
       </span>
     ) : (
-      part
+      <span key={`${part}-${index}-normal`}>{part}</span>
     )
   );
 };
@@ -31,8 +31,8 @@ const countFilteredOperations = (spec: OpenApiJson, searchTerm: string) => {
 
   return Object.values(group).reduce((count, operations) => {
     const filteredOperations = operations.filter((operation) => {
-      const summary = operation.details?.summary || '';
-      const description = operation.details?.description || '';
+      const summary = operation.details?.summary ?? '';
+      const description = operation.details?.description ?? '';
       return findOperation(summary, searchTerm, description, operation);
     });
     return count + filteredOperations.length;
@@ -43,10 +43,10 @@ const GroupedOperations = ({ spec, searchTerm }: { spec: OpenApiJson; searchTerm
   const group = groupOperationsByTag(spec);
   return (
     <div className="py-4">
-      {Object.entries(group).map(([specKey, operations], index) => {
+      {Object.entries(group).map(([specKey, operations]) => {
         const filteredOperations = filterOperations(operations, searchTerm);
         if (filteredOperations.length === 0) return null;
-        return GroupedOperation(index, specKey, filteredOperations, spec, searchTerm);
+        return GroupedOperation(specKey, filteredOperations, spec, searchTerm);
       })}
     </div>
   );
@@ -100,10 +100,10 @@ function SearchSidebar(specs: OpenApiJson[], searchTerm: string) {
 }
 
 function Specifications(specs: OpenApiJson[], searchTerm: string) {
-  return specs.map((spec, index) => {
+  return specs.map((spec) => {
     const itemCount = countFilteredOperations(spec, searchTerm);
     return (
-      <Card className="my-4" key={`spec-${index}`}>
+      <Card className="my-4" key={`spec-${spec.info.title}`}>
         <CardHeader>
           <CardTitle className="flex justify-between items-center h-9">
             {spec.info.title} {searchTerm && itemCount > 0 && <Badge className="rounded-full">{itemCount}</Badge>}
@@ -143,28 +143,26 @@ function SearchResult(specs: OpenApiJson[], searchTerm: string) {
 }
 
 function GroupedOperation(
-  index: number,
   specKey: string,
   filteredOperations: Operation[],
   spec: OpenApiJson, searchTerm: string
 ) {
-  return <div key={`group-${index}`}>
+  return <div key={`group-${spec.info.title}-${specKey}`}>
     <div className="text-xs uppercase font-semibold my-4">{specKey}</div>
-    {filteredOperations.map((operation, index) => {
-      const operationPath = `/guide/docs/${spec.info.title.toLocaleLowerCase()}/${operation.details?.operationId}`;
-      return OperationLink(index, operationPath, operation, searchTerm);
+    {filteredOperations.map((operation) => {
+      const operationPath = `/docs/${spec.name.toLocaleLowerCase()}/${operation.details?.operationId}`;
+      return OperationLink(operationPath, operation, searchTerm);
     })}
   </div>;
 }
 
 function OperationLink(
-  index: number,
   operationPath: string,
   operation: Operation,
   searchTerm: string
 ) {
   return <Link
-    key={`operation-${index}`}
+    key={`operation-${operation.details?.operationId ?? operation.path}`}
     className="w-full flex items-center justify-between py-4 border-b-[1px]"
     to={operationPath}
   >
@@ -184,8 +182,8 @@ function OperationLink(
 
 function filterOperations(operations: Operation[], searchTerm: string) {
   return operations.filter((operation) => {
-    const summary = operation.details?.summary || '';
-    const description = operation.details?.description || '';
+    const summary = operation.details?.summary ?? '';
+    const description = operation.details?.description ?? '';
     return findOperation(summary, searchTerm, description, operation);
   });
 }
@@ -220,19 +218,19 @@ function foundSummary(summary: string, searchTerm: string): unknown {
 
 function HighlightDescription(operation: Operation, searchTerm: string) {
   return <div className="text-xs text-gray-600">
-    {highlightText(operation.details?.description || '', searchTerm)}
+    {highlightText(operation.details?.description ?? '', searchTerm)}
   </div>;
 }
 
 function HighlightSummary(operation: Operation, searchTerm: string) {
   return <span className="mr-4">
-    {highlightText(operation.details?.summary || '', searchTerm)}
+    {highlightText(operation.details?.summary ?? '', searchTerm)}
   </span>;
 }
 
 function HighlightTags(operation: Operation, searchTerm: string) {
   return <Badge variant="outline" className="rounded-full text-xs font-mono">
-    {highlightText(operation.details?.tags.join(', ') || '', searchTerm)}
+    {highlightText(operation.details?.tags.join(', ') ?? '', searchTerm)}
   </Badge>;
 }
 

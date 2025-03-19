@@ -1,40 +1,41 @@
 # Changelog
 
-## [1.1.0] - 2025
+## Novembro de 2024
 
-* **Layout Responsivo** 🖥️📱
-  * Layout totalmente responsivo para documentação da API
-  * Grid de conteúdo adaptável a diferentes dispositivos
-  * Experiência otimizada para smartphones e tablets
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+  <div class="card-warren">
+    <h3 class="text-lg font-bold text-terracota mb-2">Serviço de cadastro</h3>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>Liberação dos serviços para cadastro completo via api</li>
+    </ul>
+  </div>
+  
+  <div class="card-warren">
+    <h3 class="text-lg font-bold text-terracota mb-2">Serviço de transações</h3>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>Obter patrimônio do cliente</li>
+      <li>Obter informações de rentabilidade do cliente</li>
+    </ul>
+  </div>
+</div>
 
-* **Menu e Navegação** 📊
-  * Menu hambúrguer para dispositivos móveis (Sheet component)
-  * Sistema off-canvas para navegação em telas pequenas
-  * Cabeçalho redesenhado com foco em elementos essenciais
-  * Botões e links reposicionados para melhor usabilidade
+---
 
-* **Sistema de Temas** 🌓
-  * Alternância entre temas claro e escuro
-  * Variáveis CSS personalizadas para cores em ambos os temas
-  * Preferência de tema salva no localStorage
-  * Mudança de tema instantânea sem recarregar a página
+## Julho de 2024
 
-* **Acessibilidade e UX** ♿
-  * Estados hover aprimorados para feedback visual
-  * Tipografia otimizada para melhor legibilidade
-  * Maior contraste entre elementos da interface
-  * Atalho de teclado ⌘K para busca rápida
-
-* **Otimizações Técnicas** ⚙️
-  * Arquitetura CSS com variáveis e Tailwind
-  * Media queries simplificadas e otimizadas
-  * HTML semântico para melhor SEO e acessibilidade
-  * Componentes React refatorados para maior performance
-
-## [1.0.0] - 2025
-
-* **Lançamento Inicial** 🚀
-  * Plataforma de documentação de APIs
-  * Suporte à visualização de especificações OpenAPI
-  * Sistema de navegação para exploração de endpoints
-  * Exemplos de código para cada operação da API
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+  <div class="card-warren">
+    <h3 class="text-lg font-bold text-terracota mb-2">Serviço de transação</h3>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>Criação e acompanhamento das intenções de investimento</li>
+    </ul>
+  </div>
+  
+  <div class="card-warren">
+    <h3 class="text-lg font-bold text-terracota mb-2">Serviço de prestação de contas</h3>
+    <ul class="list-disc pl-5 space-y-1">
+      <li>Obter patrimônio do cliente</li>
+      <li>Obter informações de rentabilidade do cliente</li>
+    </ul>
+  </div>
+</div>

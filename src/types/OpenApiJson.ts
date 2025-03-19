@@ -5,6 +5,7 @@ import { OpenApiSchema } from "./OpenApiSchema";
 
 export interface OpenApiJson {
   openapi: string;
+  name: string;
   servers?: {
     url: string;
   }[];

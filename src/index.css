@@ -1,85 +1,226 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    /* Cores Primárias - Warren WaaS */
+    --carvao: 0 0% 20%;      /* #333131 */
+    --terracota: 7 64% 48%;  /* #C7452D */
+    --ouro: 35 38% 57%;      /* #C7935A */
+    --linho: 20 8% 91%;      /* #EBE7E6 */
+    
+    /* Light theme - baseado no site Warren WaaS */
+    --background: var(--tw-gray-100);
+    --foreground: var(--carvao);
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: var(--carvao);
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem
-  ;
+    --popover-foreground: var(--carvao);
+    --primary: var(--terracota);
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: var(--carvao);
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: var(--terracota);
+    --accent-foreground: var(--linho);
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: var(--terracota);
+    
+    /* Cores da paleta Duna */
+    --duna-100: 36 33% 90%;
+    --duna-200: 32 25% 84%;
+    --duna-300: 35 33% 65%;
+    --duna-400: 35 33% 55%;
+    --duna-500: 35 33% 45%;
+    --duna-600: 35 33% 40%;
+    --duna-700: 35 33% 35%;
+    --duna-800: 35 33% 30%;
+    
+    /* Cores da paleta Urucum */
+    --urucum-100: 10 25% 90%;
+    --urucum-200: 10 25% 80%;
+    --urucum-300: 10 25% 70%;
+    --urucum-400: 10 25% 60%;
+    --urucum-500: 10 25% 50%;
+    --urucum-600: 10 25% 40%;
+    --urucum-700: 10 25% 30%;
+    --urucum-800: 10 25% 20%;
+    
+    /* Cores da paleta Céu */
+    --ceu-100: 216 33% 90%;
+    --ceu-200: 216 33% 80%;
+    --ceu-300: 216 33% 70%;
+    --ceu-400: 216 33% 60%;
+    --ceu-500: 216 33% 50%;
+    --ceu-600: 216 33% 40%;
+    --ceu-700: 216 33% 30%;
+    --ceu-800: 216 33% 20%;
+    
+    /* Cores da paleta Selva */
+    --selva-100: 120 15% 90%;
+    --selva-200: 120 15% 80%;
+    --selva-300: 120 15% 70%;
+    --selva-400: 120 15% 60%;
+    --selva-500: 120 15% 50%;
+    --selva-600: 120 15% 40%;
+    --selva-700: 120 15% 30%;
+    --selva-800: 120 15% 20%;
+    
+    /* Cores para gráficos */
+    --chart-1: var(--terracota);
+    --chart-2: var(--ouro);
+    --chart-3: 216 33% 50%;
+    --chart-4: 120 15% 50%;
+    --chart-5: var(--carvao);
+    
+    --radius: 0.5rem;
+    
+    /* Sidebar - baseado no site Warren WaaS */
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%}
+    --sidebar-foreground: var(--carvao);
+    --sidebar-primary: var(--terracota);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 96%;
+    --sidebar-accent-foreground: var(--carvao);
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: var(--terracota);
+  }
+  
   .dark {
-    --background: 196, 18%, 12%;
-    --foreground: 0 0% 88%;
-    --card: 196, 18%, 8.9%;
+    /* Dark theme - baseado no site Warren WaaS */
+    --background: 0 0% 10%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 12%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    --popover: 0 0% 12%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
+    --primary: var(--terracota);
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 196 18% 8%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --accent: var(--terracota);
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 196, 18%, 20%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 196, 18%, 12%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: var(--terracota);
+    
+    /* Cores para gráficos no tema escuro */
+    --chart-1: var(--terracota);
+    --chart-2: var(--ouro);
+    --chart-3: 216 33% 50%;
+    --chart-4: 120 15% 50%;
+    --chart-5: 0 0% 90%;
+    
+    /* Sidebar - baseado no site Warren WaaS */
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: var(--terracota);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 320 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 196, 18%, 20%;
-    --sidebar-ring: 317.2 91.2% 59.8%}
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: var(--terracota);
+  }
 }
-@layer base {
+@layer components {
   * {
     @apply border-border;
   }
   html, body {
     @apply bg-background text-foreground;
     @apply overflow-hidden;
+  }
+
+  /* Typography System based on Style Guide */
+  .d1 {
+    @apply font-display text-[160px] leading-[160px] font-normal tracking-[0];
+  }
+  
+  .d2 {
+    @apply font-display text-[104px] leading-[104px] font-normal tracking-[0];
+  }
+  
+  .d3 {
+    @apply font-display text-[64px] leading-[72px] font-normal tracking-[0];
+  }
+  
+  .h1 {
+    @apply font-display text-[48px] leading-[56px] font-normal tracking-[0] my-8;
+  }
+  
+  .h2 {
+    @apply font-display text-[40px] leading-[48px] font-normal tracking-[0] my-8;
+  }
+  
+  .h3 {
+    @apply font-display text-[32px] leading-[40px] font-normal tracking-[0] my-8;
+  }
+  
+  .h4 {
+    @apply font-display text-[24px] leading-[32px] font-semibold tracking-[0] my-8;
+  }
+  
+  .h5 {
+    @apply font-display text-[20px] leading-[28px] font-semibold tracking-[0] my-8;
+  }
+  
+  .h6 {
+    @apply font-text text-[19px] leading-[26px] font-semibold tracking-[0] my-8;
+  }
+  
+  .p1 {
+    @apply font-text text-[31px] leading-[40px] font-normal tracking-[0];
+  }
+  
+  .p2 {
+    @apply font-text text-[23px] leading-[32px] font-normal tracking-[0];
+  }
+  
+  .p3 {
+    @apply font-text text-[19px] leading-[28px] font-normal tracking-[0];
+  }
+  
+  .p4 {
+    @apply font-text text-[17px] leading-[26px] font-normal tracking-[0];
+  }
+
+  /* Apply typography to HTML elements */
+  h1 {
+    @apply h1;
+  }
+  
+  h2 {
+    @apply h2;
+  }
+  
+  h3 {
+    @apply h3;
+  }
+  
+  h4 {
+    @apply h4;
+  }
+  
+  h5 {
+    @apply h5;
+  }
+  
+  h6 {
+    @apply h6;
+  }
+  
+  p {
+    @apply p4;
   }
 
   .gde-appbar {
@@ -101,6 +242,39 @@
   @apply bg-background;
 }
 
+/* Estilos específicos do Warren WaaS */
+.btn-primary {
+  @apply bg-carvao text-white hover:bg-black transition-colors duration-200;
+  @apply px-8 py-3 rounded-xl font-semibold inline-flex items-center gap-2 text-center;
+}
+
+.dark .btn-primary {
+  @apply bg-white text-carvao hover:bg-gray-100 transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-foreground hover:bg-urucum-100 transition-colors duration-200;
+}
+
+.btn-outline {
+  @apply border border-terracota text-terracota hover:bg-urucum-700 hover:border-urucum-700 hover:text-white transition-colors duration-200;
+}
+
+.link {
+  @apply text-terracota hover:text-urucum-700 transition-colors duration-200;
+}
+
+.card-warren {
+  @apply bg-card rounded-lg shadow-sm border border-border p-6;
+}
+
+.sidebar-item {
+  @apply flex items-center gap-2 px-3 py-2 rounded-md hover:bg-sidebar-accent text-sidebar-foreground transition-colors duration-200;
+}
+
+.sidebar-item.active {
+  @apply bg-sidebar-accent font-medium;
+}
 
 ::-webkit-scrollbar {
   width: 4px;
@@ -203,23 +377,83 @@
   @apply rounded-2xl;
 }
 
-h1 {
-  @apply text-4xl font-bold;
-}
-
 .branding-name {
   @apply font-bold text-xl font-display;
 }
 
+/* Ajustando o gradiente para corresponder ao estilo Warren */
 .dark .branding-name {
-  background: -webkit-linear-gradient(45deg, #7209b7, #00f5d4, #ffd60a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--white);
 }
 
 .light .branding-name {
-  background: -webkit-linear-gradient(0deg, #f72585, #b5179e, #7209b7, #560bad, #560bad, #3f37c9, #4361ee, #4895ef);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--carvao);
 }
+
+@font-face {
+  font-family: 'WarrenDisplay';
+  src: url('/fonts/warrendisplay/v2/WarrenDisplay-Bold.woff2') format('woff2'),
+       url('/fonts/warrendisplay/v2/WarrenDisplay-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'WarrenDisplay';
+  src: url('/fonts/warrendisplay/v2/WarrenDisplay-Bold.woff2') format('woff2'),
+       url('/fonts/warrendisplay/v2/WarrenDisplay-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'WarrenText';
+  src: url('/fonts/warrentext/v2/WarrenText-Regular.woff2') format('woff2'),
+       url('/fonts/warrentext/v2/WarrenText-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+} 
+
+@font-face {
+  font-family: 'WarrenText';
+  src: url('/fonts/warrentext/v2/WarrenText-Bold.woff2') format('woff2'),
+       url('/fonts/warrentext/v2/WarrenText-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+} 
+
+/* Font weight utility classes */
+.font-regular {
+  font-weight: normal;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+/* For elements that need to use the Display font with semibold weight */
+.display-semibold {
+  @apply font-display;
+  font-weight: 600;
+}
+
+/* For elements that need to use the Text font with semibold weight */
+.text-semibold {
+  @apply font-text;
+  font-weight: 600;
+}
+
+.markdonw-page ul {
+  @apply list-disc;
+}
+
+pre code.hljs {
+  @apply bg-carvao !important;
+}
+
+pre {
+  @apply text-sm !important;
+  @apply bg-carvao dark:bg-opacity-20 !important;
+}
+
 

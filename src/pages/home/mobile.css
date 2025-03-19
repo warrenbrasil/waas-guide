@@ -7,17 +7,11 @@
 }
 
 .mobile .home-hero--title {
-  @apply text-6xl font-display;
+  @apply h2 font-display;
   @apply inline-block;
 }
 
 .mobile .home-hero--subtitle {
-  @apply text-2xl inline-block;
-  @apply font-light italic;
-  @apply underline;
-  @apply font-display;
-}
-
-.mobile .home-hero {
-  @apply min-h-64 flex flex-col justify-center;
+  @apply p2 inline-block;
+  @apply font-text;
 }

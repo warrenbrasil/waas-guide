@@ -1,14 +1,13 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 import { Operation } from "@/types";
-import { Link } from "react-router-dom";
 
 interface OperationsListProps {
   operations: Operation[];
-  specTitle: string;
+  specName: string;
 }
 
-const OperationsList: React.FC<OperationsListProps> = ({ operations, specTitle }) => {
+const OperationsList: React.FC<OperationsListProps> = ({ operations, specName }) => {
   const location = useLocation();
   const { pathname } = location;
   const { isMobile, setOpenMobile } = useSidebar();
@@ -23,7 +22,7 @@ const OperationsList: React.FC<OperationsListProps> = ({ operations, specTitle }
   return (
     <SidebarMenu className="py-4">
       {operations.filter((operation) => operation.details?.operationId).map((operation) => {
-        const operationPath = `/guide/docs/${specTitle.toLocaleLowerCase()}/${operation.details?.operationId}`;
+        const operationPath = `/docs/${specName?.toLocaleLowerCase()}/${operation.details?.operationId}`;
         const isSelected = pathname === operationPath;
 
         return (

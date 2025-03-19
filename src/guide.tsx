@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import MarkdownPage from '@/pages/page';
 import DocPage from './pages/doc';
 import { SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
@@ -7,8 +7,7 @@ import { useGlobalContext } from "@/utils";
 import Logo from './components/logo';
 import { GlobalState } from './types';
 import SearchPage from './pages/search';
-import { Link } from 'react-router-dom';
-import { BookOpenText, Menu, Megaphone, MoonStar, Search, Sun } from 'lucide-react';
+import { BookOpenText, ChevronLeft, Menu, Megaphone, MoonStar, Search, Sun, Lock } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { useEffect, useState } from 'react';
 import HomePage from './pages/home';
@@ -27,31 +26,26 @@ import {
 const Page = (
   <article className='gde-page'>
     <Routes>
-      <Route path="/guide" element={
-        <>
-          <HomePage />
-        </>
-      } />
-      <Route path="/guide/pages/:page" element={
+      <Route path="/" element={<HomePage />} />
+      <Route path="/pages/:page" element={
         <div className='markdown-page'>
           <MarkdownPage />
         </div>
       } />
-      <Route path="/guide/docs/:spec/:id" element={
+      <Route path="/docs/:spec/:id" element={
         <DocPage />
       } />
-      <Route path="/guide/search" element={
+      <Route path="/search" element={
         <SearchPage />
       } />
     </Routes>
   </article>
 )
 
-const SearchButton = ({ className = "" }) => (
-  <Link to="/guide/search">
+const SearchButton = ({ className = "" }: Readonly<{ className?: string }>) => (
+  <Link to="/search">
     <Button variant="ghost" className={`${className}`}>
-      <Search className="h-5 w-5 mr-2" />
-      <span className="hidden md:inline">Pesquisar</span>
+      <Search className="h-5 w-5" />
       <kbd className="hidden md:inline-flex ml-2 items-center gap-1 rounded border px-1.5 text-xs">
         <span className="text-xs">⌘</span>K
       </kbd>
@@ -59,9 +53,26 @@ const SearchButton = ({ className = "" }) => (
   </Link>
 );
 
-function HeaderContentLeft(globalState: GlobalState) {
+function HeaderContentLeft(globalState: Readonly<GlobalState>) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const showSidebarTrigger = !globalState.pages.includes(currentPath);
+  const showBackButton = globalState.pages.includes(currentPath);
+  
   return <div className='gde-appbar--left'>
-    <SidebarTrigger className='mr-3' />
+    {showSidebarTrigger && <SidebarTrigger className='mr-3' />}
+    {showBackButton && (
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        className="mr-2" 
+        onClick={() => navigate(-1)}
+        aria-label="Go back"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </Button>
+    )}
     {Branding(globalState)}
   </div>;
 }
@@ -95,14 +106,20 @@ function HeaderContentRight() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link to="/guide/pages/readme" className="flex items-center gap-2 px-3 py-2">
-                <BookOpenText className="h-5 w-5" />
-                Readme
+              <Link to="/pages/readme" className="flex items-center gap-2 px-3 py-2">
+                <BookOpenText className="h-4 w-4" />
+                Guia de Início
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to="/guide/pages/changelog" className="flex items-center gap-2 px-3 py-2">
-                <Megaphone className="h-5 w-5" />
+              <Link to="/pages/authentication" className="flex items-center gap-2 px-3 py-2">
+                <Lock className="h-4 w-4" />
+                Autenticação
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/pages/changelog" className="flex items-center gap-2 px-3 py-2">
+                <Megaphone className="h-4 w-4" />
                 Changelog
               </Link>
             </NavigationMenuItem>
@@ -126,18 +143,26 @@ function HeaderContentRight() {
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[250px] sm:w-[300px] sheet-content">
+          <SheetContent side="right" className="w-[250px] sm:w-[300px] sheet-content dark:bg-carvao bg-white">
             <div className="grid gap-4 py-4">
               <Link 
-                to="/guide/pages/readme" 
+                to="/pages/readme" 
                 className="flex items-center gap-2 px-4 py-2 hover:bg-accent rounded-md"
                 onClick={() => setOpen(false)}
               >
                 <BookOpenText className="h-5 w-5" />
-                Readme
+                Guia de Início
               </Link>
               <Link 
-                to="/guide/pages/changelog" 
+                to="/pages/authentication" 
+                className="flex items-center gap-2 px-4 py-2 hover:bg-accent rounded-md"
+                onClick={() => setOpen(false)}
+              >
+                <Lock className="h-5 w-5" />
+                Autenticação
+              </Link>
+              <Link 
+                to="/pages/changelog" 
                 className="flex items-center gap-2 px-4 py-2 hover:bg-accent rounded-md"
                 onClick={() => setOpen(false)}
               >
@@ -145,7 +170,7 @@ function HeaderContentRight() {
                 Changelog
               </Link>
               <Link 
-                to="/guide/search" 
+                to="/search" 
                 className="flex items-center gap-2 px-4 py-2 hover:bg-accent rounded-md"
                 onClick={() => setOpen(false)}
               >
@@ -171,14 +196,14 @@ function HeaderContentRight() {
   );
 }
 
-function Branding(globalState: GlobalState) {
-  return <Link to="/guide/" className="flex items-center gap-4 leading-none">
+function Branding(globalState: Readonly<GlobalState>) {
+  return <Link to="/" className="flex items-center justify-center gap-4 leading-none">
     <Logo />
-    <span className="branding-name hidden sm:inline">{globalState.branding.name}</span>
+    <span className="branding-name inline">{globalState.branding.name}</span>
   </Link>;
 }
 
-function Header(globalState: GlobalState) {
+function Header(globalState: Readonly<GlobalState>) {
   return <header className='gde-appbar'>
     {HeaderContentLeft(globalState)}
     {HeaderContentRight()}
@@ -191,7 +216,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Lê o tema do localStorage ou usa 'light' como padrão
-    const theme = (localStorage.getItem('theme') || 'light') as GlobalState['theme'];
+    const theme = (localStorage.getItem('theme') ?? 'light') as GlobalState['theme'];
     localStorage.setItem('theme', theme);
     
     // Aplica o tema ao documento HTML
@@ -215,7 +240,7 @@ const App: React.FC = () => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-        navigate("/guide/search")
+        navigate("/search")
       }
     }
     document.addEventListener("keydown", down)

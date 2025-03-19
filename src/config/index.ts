@@ -2,24 +2,25 @@ import { GlobalState } from "@/types";
 
 export default {
   branding: {
-    logo: '/guide/logo.svg',
-    name: 'Guide',
+    logo: '/logo.svg',
+    name: 'WaaS',
     theme: {
       dark: {
-        logo: '/guide/guide-logo-white.png',
-        logoSize: 'h-8'
+        logo: '/warren-white.svg',
+        logoSize: 'h-5'
       },
       light: {
-        logo: '/guide/guide-logo-black.png',
-        logoSize: 'h-8'
+        logo: '/warren-carvao.svg',
+        logoSize: 'h-5'
       }
     }
   },
-  theme: 'light',
+  theme: 'dark',
   specs: {
-    warp: '/guide/specs/warp.json',
-    "swagger petstore - openapi 3.0": 'https://petstore3.swagger.io/api/v3/openapi.json',
-    "spoonacular api": "https://spoonacular.com/application/frontend/downloads/spoonacular-openapi-3.json"
+    onboarding: '/specs/onboarding.json',
+    transactions: '/specs/transactions.json',
+    account_rendering: '/specs/account-rendering.json',
+    portfolios: '/specs/portfolios.json'
   },
-  pages: ['/guide/', '/guide/search', '/guide/pages/readme', '/guide/pages/changelog']
+  pages: ['/', '/search', '/pages/changelog', '/pages/authentication', '/pages/onboarding', '/pages/account-rendering', '/pages/portfolios', '/pages/transactions']
 } as GlobalState

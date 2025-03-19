@@ -128,4 +128,20 @@ html.dark {
   .branding-name {
     display: none;
   }
+}
+
+@font-face {
+    font-family: 'WarrenDisplay';
+    src: url('/fonts/warrendisplay/v2/font-file-name.woff2') format('woff2'), /* Substitua pelo nome do arquivo correto */
+         url('/fonts/warrendisplay/v2/font-file-name.woff') format('woff'); /* Substitua pelo nome do arquivo correto */
+    font-weight: bold; /* Ajuste conforme necessário */
+    font-style: normal; /* Ajuste conforme necessário */
+}
+
+@font-face {
+    font-family: 'WarrenText';
+    src: url('/fonts/warrentext/v2/font-file-name.woff2') format('woff2'), /* Substitua pelo nome do arquivo correto */
+         url('/fonts/warrentext/v2/font-file-name.woff') format('woff'); /* Substitua pelo nome do arquivo correto */
+    font-weight: normal; /* Ajuste conforme necessário */
+    font-style: normal; /* Ajuste conforme necessário */
 } 

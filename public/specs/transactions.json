@@ -1,0 +1,3045 @@
+{
+  "openapi": "3.0.1",
+  "name": "transactions",
+  "info": {
+    "title": "Transações",
+    "description": "API para gerenciamento de transações",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://waas.warren.com.br"
+    }
+  ],
+  "paths": {
+    "/v1/transactions/customers/{customerApiId}/portfolios/{portfolioApiId}/redemptions/preview": {
+      "post": {
+        "tags": [
+          "CustomersRedemptions"
+        ],
+        "operationId": "post-redemption-preview",
+        "summary": "Gera uma prévia do resgate",
+        "requestExample": {
+          "customerApiId": "1234567890",
+          "portfolioApiId": "1234567890"
+        },
+        "parameters": [
+          {
+            "name": "customerApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "portfolioApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioRedemptionPreviewRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioRedemptionPreviewRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioRedemptionPreviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioRedemptionPreviewResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioRedemptionPreviewResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioRedemptionPreviewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transactions/customers/{customerApiId}/orders/{orderApiId}": {
+      "get": {
+        "tags": [
+          "CustomerTransactions"
+        ],
+        "operationId": "get-order-by-id",
+        "summary": "Obter ordem por id",
+        "parameters": [
+          {
+            "name": "customerApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionProductResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionProductResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionProductResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transactions/customers/{customerApiId}/orders": {
+      "get": {
+        "tags": [
+          "CustomerTransactions"
+        ],
+        "operationId": "get-orders",
+        "summary": "Obter ordens",
+        "parameters": [
+          {
+            "name": "customerApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "portfolioApiId",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "productApiId",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/OrderStatusRequest"
+              }
+            }
+          },
+          {
+            "name": "transactionStatus",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TransactionStatusRequest"
+              }
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TransactionDirectionRequest"
+              }
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 60,
+              "minimum": 3,
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionProductResultPaginationResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionProductResultPaginationResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionProductResultPaginationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transactions/customers/{customerApiId}/portfolios/{portfolioApiId}/investments/intentions": {
+      "post": {
+        "tags": [
+          "InvestmentIntentions"
+        ],
+        "operationId": "post-investment-intention",
+        "summary": "Enviar intenção de investimento",
+        "parameters": [
+          {
+            "name": "customerApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "portfolioApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioInvestmentIntentionRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioInvestmentIntentionRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortfolioInvestmentIntentionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioInvestmentIntentionResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioInvestmentIntentionResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortfolioInvestmentIntentionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transactions/customers/{customerApiId}/investments/intentions": {
+      "get": {
+        "tags": [
+          "InvestmentIntentions"
+        ],
+        "operationId": "get-investment-intentions",
+        "summary": "Obter intenções de investimento",
+        "parameters": [
+          {
+            "name": "customerApiId",
+            "description": "Identificador único do cliente usado na consulta",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/TransactionIntentionStatusRequest"
+              }
+            }
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "schema": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "maximum": 60,
+              "minimum": 3,
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PortfolioInvestmentIntentionResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PortfolioInvestmentIntentionResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PortfolioInvestmentIntentionResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/transactions/customers/{customerApiId}/portfolios/{portfolioApiId}/redemptions": {
+      "post": {
+        "tags": [
+          "CustomersRedemptions"
+        ],
+        "operationId": "post-redemption",
+        "summary": "Realiza um resgate",
+        "parameters": [
+          {
+            "name": "customerApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "portfolioApiId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerPortfolioRedemption"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerPortfolioRedemption"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerPortfolioRedemption"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiBadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiNotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BaseProduct": {
+        "type": "object",
+        "properties": {
+          "productApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateOrder": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "productApiId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateOrderDTO": {
+        "type": "object",
+        "properties": {
+          "orderApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateOrderRequest": {
+        "type": "object",
+        "properties": {
+          "requestedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateOrder"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerInvestmentPreValidation": {
+        "type": "object",
+        "properties": {
+          "productApiIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerInvestmentValidation": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerPortfolioInvestment": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerPortfolioRedemption": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "shouldPrioritizeLiquidity": {
+            "type": "boolean",
+            "default": false
+          },
+          "sendTransferOut": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerProductsInvestment": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerResponse": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "sinacorCustomerId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerTransactionListResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerTransactionResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "transactionValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "from": {
+            "$ref": "#/components/schemas/TransactionSource"
+          },
+          "to": {
+            "$ref": "#/components/schemas/TransactionSource"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true,
+            "deprecated": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionStatusResponse"
+          },
+          "movementType": {
+            "$ref": "#/components/schemas/TransactionMovementType"
+          },
+          "transactionType": {
+            "$ref": "#/components/schemas/TransactionType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CustomerValidationResponse": {
+        "type": "object",
+        "properties": {
+          "errorCodes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FlowEnumRequest": {
+        "enum": [
+          "IgnoreBalanceValidation",
+          "IgnoreReservationInvestment"
+        ],
+        "type": "string"
+      },
+      "HttpStatusCode": {
+        "enum": [
+          "Continue",
+          "SwitchingProtocols",
+          "Processing",
+          "EarlyHints",
+          "OK",
+          "Created",
+          "Accepted",
+          "NonAuthoritativeInformation",
+          "NoContent",
+          "ResetContent",
+          "PartialContent",
+          "MultiStatus",
+          "AlreadyReported",
+          "IMUsed",
+          "MultipleChoices",
+          "MovedPermanently",
+          "Found",
+          "SeeOther",
+          "NotModified",
+          "UseProxy",
+          "Unused",
+          "TemporaryRedirect",
+          "PermanentRedirect",
+          "BadRequest",
+          "Unauthorized",
+          "PaymentRequired",
+          "Forbidden",
+          "NotFound",
+          "MethodNotAllowed",
+          "NotAcceptable",
+          "ProxyAuthenticationRequired",
+          "RequestTimeout",
+          "Conflict",
+          "Gone",
+          "LengthRequired",
+          "PreconditionFailed",
+          "RequestEntityTooLarge",
+          "RequestUriTooLong",
+          "UnsupportedMediaType",
+          "RequestedRangeNotSatisfiable",
+          "ExpectationFailed",
+          "MisdirectedRequest",
+          "UnprocessableEntity",
+          "Locked",
+          "FailedDependency",
+          "UpgradeRequired",
+          "PreconditionRequired",
+          "TooManyRequests",
+          "RequestHeaderFieldsTooLarge",
+          "UnavailableForLegalReasons",
+          "InternalServerError",
+          "NotImplemented",
+          "BadGateway",
+          "ServiceUnavailable",
+          "GatewayTimeout",
+          "HttpVersionNotSupported",
+          "VariantAlsoNegotiates",
+          "InsufficientStorage",
+          "LoopDetected",
+          "NotExtended",
+          "NetworkAuthenticationRequired"
+        ],
+        "type": "string"
+      },
+      "InternalInvestmentValidationResponse": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/CustomerValidationResponse"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductValidationResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InternalRedemptionProductValidationResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RedemptionProductValidationResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InternalTransactionResult": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAtBrtTimeZone": {
+            "type": "string",
+            "nullable": true
+          },
+          "modifiedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "operatedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedFinishAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "scheduledDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromPortfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "toPortfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "portfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "direction": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasRequesterCustomerApiId": {
+            "type": "boolean"
+          },
+          "requesterCustomerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionProductResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InternalTransactionResultPaginationResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InternalTransactionResult"
+            },
+            "nullable": true
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvestmentContextRequest": {
+        "type": "object",
+        "properties": {
+          "partnerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentTransactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productApiIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "investingAmount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvestmentCreateOrderResponse": {
+        "type": "object",
+        "properties": {
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateOrderDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvestmentPreValidationResponse": {
+        "type": "object",
+        "properties": {
+          "minOperationWindow": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductPreValidationResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvestmentResponse": {
+        "type": "object",
+        "properties": {
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductInvestmentResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvestmentValidationResponse": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean"
+          },
+          "validation": {
+            "$ref": "#/components/schemas/InternalInvestmentValidationResponse"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ManagedPortfolioBonusInvestmentResponse": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ManagedPortfolioBonusInvestmentResponseApiOkResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/ManagedPortfolioBonusInvestmentResponse"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MovementType": {
+        "enum": [
+          "All",
+          "Input",
+          "Output",
+          "Internal"
+        ],
+        "type": "string"
+      },
+      "OldCustomerTransactionListResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OldCustomerTransactionResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OldCustomerTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "from": {
+            "$ref": "#/components/schemas/TransactionSource"
+          },
+          "to": {
+            "$ref": "#/components/schemas/TransactionSource"
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionStatusResponse"
+          },
+          "movementType": {
+            "$ref": "#/components/schemas/TransactionMovementType"
+          },
+          "transactionType": {
+            "$ref": "#/components/schemas/TransactionType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderCancelRequest": {
+        "type": "object",
+        "properties": {
+          "requestedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderPreValidationResponse": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAvailableToCancel": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderStatusRequest": {
+        "enum": [
+          "Scheduled",
+          "Requested",
+          "Sent",
+          "Processing",
+          "Quoted",
+          "Finished",
+          "Canceled",
+          "Refused",
+          "PendingAgreements"
+        ],
+        "type": "string"
+      },
+      "OrderUpdate": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusReason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrdersApiUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "requestedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderApiIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrdersUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "requestedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderUpdate"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartnerInvestmentPreValidation": {
+        "type": "object",
+        "properties": {
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productApiIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartnerInvestmentValidation": {
+        "type": "object",
+        "properties": {
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartnerPortfolioInvestment": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartnerPortfolioRedemption": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "shouldPrioritizeLiquidity": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartnerProductsInvestment": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartnerTransactionListResponse": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PartnerTransactionResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PartnerTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/CustomerResponse"
+          },
+          "from": {
+            "$ref": "#/components/schemas/TransactionSource"
+          },
+          "to": {
+            "$ref": "#/components/schemas/TransactionSource"
+          },
+          "transactionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "transactionValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true,
+            "deprecated": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionStatusResponse"
+          },
+          "transactionType": {
+            "$ref": "#/components/schemas/TransactionMovementType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioApiIdRequest": {
+        "type": "object",
+        "properties": {
+          "portfolioApiId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioInvestment": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "portfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioInvestmentIntentionRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioInvestmentIntentionResponse": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "portfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requesterCustomerApiId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioInvestmentRequest": {
+        "type": "object",
+        "properties": {
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "requestedBy": {
+            "$ref": "#/components/schemas/RequestedBy"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioRedemptionPreValidationContext": {
+        "type": "object",
+        "properties": {
+          "productsContext": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProductValidationResult"
+            },
+            "nullable": true
+          },
+          "totalAllocationAvailable": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAllocationInGracePeriod": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAllocation": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAllocationInRedemptionInProgress": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAvailableProducts": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioRedemptionPreValidationContextResponse": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/PortfolioRedemptionPreValidationContext"
+          },
+          "errorCodes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioRedemptionPreviewRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "shouldPriorizeLiquidity": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioRedemptionPreviewResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PortfolioRedemptionProductsWithdrawalPreview"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioRedemptionProductsWithdrawalPreview": {
+        "type": "object",
+        "properties": {
+          "productApiId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productName": {
+            "type": "string",
+            "nullable": true
+          },
+          "grossValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "netValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "operationTax": {
+            "type": "number",
+            "format": "double"
+          },
+          "incomeTax": {
+            "type": "number",
+            "format": "double"
+          },
+          "administrationTax": {
+            "type": "number",
+            "format": "double"
+          },
+          "managementTax": {
+            "type": "number",
+            "format": "double"
+          },
+          "liquidationDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioRedemptionRequest": {
+        "type": "object",
+        "properties": {
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "requestedBy": {
+            "$ref": "#/components/schemas/RequestedBy"
+          },
+          "shouldPriorizeLiquidity": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioTransactionByPeriodResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "portfolioId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "convertedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionStatus"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/TransactionDirection"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TransactionType"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "grossValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "grossUpAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "netValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioTransactionByPeriodResultIListApiOkResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PortfolioTransactionByPeriodResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioTransactionsSummaryResult": {
+        "type": "object",
+        "properties": {
+          "portfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "transactionsNetBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalIncoming": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalFutureIncoming": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalOutgoing": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalIncomeTax": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalOperationTax": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalNetOutgoing": {
+            "type": "number",
+            "format": "double"
+          },
+          "firstTransactionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PortfolioTransactionsSummaryResultApiOkResponse": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/PortfolioTransactionsSummaryResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {}
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "productApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isTotal": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestment": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "portfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestmentPreValidation": {
+        "type": "object",
+        "properties": {
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "impersonatedByPartner": {
+            "type": "boolean"
+          },
+          "productApiIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestmentRequest": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestedBy": {
+            "$ref": "#/components/schemas/RequestedBy"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseProduct"
+            },
+            "nullable": true
+          },
+          "flows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlowEnumRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestmentResponse": {
+        "type": "object",
+        "properties": {
+          "productApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productRequestApiId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestmentValidation": {
+        "type": "object",
+        "properties": {
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "impersonatedByPartner": {
+            "type": "boolean"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestmentValidationResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProductValidationResult"
+            },
+            "nullable": true
+          },
+          "errorCodes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestmentWindow": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductInvestmentWindowResponse": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductPreValidationResponse": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "minimumAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "financialIncrement": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "currentOrNextInvestmentWindow": {
+            "$ref": "#/components/schemas/ProductInvestmentWindowResponse"
+          },
+          "errorCodes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductRedemptionRequest": {
+        "type": "object",
+        "properties": {
+          "requestApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestedBy": {
+            "$ref": "#/components/schemas/RequestedBy"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RedemptionProduct"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductValidationContext": {
+        "type": "object",
+        "properties": {
+          "productApiId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "minimumFinancialMovement": {
+            "type": "number",
+            "format": "double",
+            "deprecated": true
+          },
+          "minimumApplication": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumWithdraw": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumAllowedRedemptionToStay": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumBalanceToStay": {
+            "type": "number",
+            "format": "double"
+          },
+          "financialDecrement": {
+            "type": "number",
+            "format": "double"
+          },
+          "hasTotalRedemptionInProgress": {
+            "type": "boolean"
+          },
+          "daysToGracePeriod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToExpiration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToLiquidationAtWithdraw": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToQuotizationAtWithdraw": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "useBusinessDaysToQuotizationAtWithdraw": {
+            "type": "boolean"
+          },
+          "useBusinessDaysToLiquidationAtWithdraw": {
+            "type": "boolean"
+          },
+          "daysToLiquidationAtPurchase": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToQuotizationAtPurchase": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "useBusinessDaysToQuotizationAtPurchase": {
+            "type": "boolean"
+          },
+          "useBusinessDaysToLiquidationAtPurchase": {
+            "type": "boolean"
+          },
+          "totalAllocation": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAllocationInGracePeriod": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAllocationInRedemptionInProgress": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAllocationInInvestmentInProgress": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalAllocationAvailable": {
+            "type": "number",
+            "format": "double"
+          },
+          "currentOrNextInvestmentWindow": {
+            "$ref": "#/components/schemas/ProductInvestmentWindow"
+          },
+          "hasLiquidity": {
+            "type": "boolean"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "minimumInvestorType": {
+            "type": "string",
+            "nullable": true
+          },
+          "financialIncrement": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumInitialMovement": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductValidationResponse": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "errorCodes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductValidationResult": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/ProductValidationContext"
+          },
+          "errorCodes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RebalanceContextRequest": {
+        "type": "object",
+        "properties": {
+          "productApiIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedemptionContextRequest": {
+        "type": "object",
+        "properties": {
+          "productApiIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedemptionPreValidationResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RedemptionProductPreValidationResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedemptionProduct": {
+        "type": "object",
+        "properties": {
+          "productApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "positionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "scheduledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedemptionProductInvestmentWindowResponse": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedemptionProductPreValidationResponse": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "minimumFinancialMovement": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumWithdraw": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "redemptionFinancialIncrement": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "maximumValueAllowedForPermanence": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumBalanceToStay": {
+            "type": "number",
+            "format": "double"
+          },
+          "daysToGracePeriod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToExpiration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToLiquidation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToQuotization": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "daysToRedeem": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "useBusinessDaysToQuotizationAtWithdraw": {
+            "type": "boolean"
+          },
+          "useBusinessDaysToLiquidationAtWithdraw": {
+            "type": "boolean"
+          },
+          "isOutsideTheGracePeriod": {
+            "type": "boolean"
+          },
+          "hasTotalRedemptionInProgress": {
+            "type": "boolean"
+          },
+          "totalAmountAvailableWithoutGracePeriod": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalGrossWorthAvailable": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalRedemptionInProgress": {
+            "type": "number",
+            "format": "double"
+          },
+          "currentOrNextInvestmentWindow": {
+            "$ref": "#/components/schemas/RedemptionProductInvestmentWindowResponse"
+          },
+          "errorCodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedemptionProductValidationResponse": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "errorCodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedemptionValidationResponse": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean"
+          },
+          "validation": {
+            "$ref": "#/components/schemas/InternalRedemptionProductValidationResponse"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RequestedBy": {
+        "enum": [
+          "None",
+          "FixedIncome",
+          "FixedIncomeRebalance",
+          "AppSheet",
+          "Rebalance",
+          "Fees",
+          "Flow",
+          "Intranet",
+          "PositionTransfer"
+        ],
+        "type": "string"
+      },
+      "SortingDirection": {
+        "enum": [
+          "Asc",
+          "Desc"
+        ],
+        "type": "string"
+      },
+      "TransactionDirection": {
+        "enum": [
+          "Credit",
+          "Debit"
+        ],
+        "type": "string"
+      },
+      "TransactionDirectionRequest": {
+        "enum": [
+          "Investment",
+          "Redemption"
+        ],
+        "type": "string"
+      },
+      "TransactionMovementType": {
+        "enum": [
+          "Input",
+          "Output",
+          "Internal"
+        ],
+        "type": "string"
+      },
+      "TransactionProductResult": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "externalOrderApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "direction": {
+            "type": "string",
+            "nullable": true
+          },
+          "portfolioApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAtBrtTimeZone": {
+            "type": "string",
+            "nullable": true
+          },
+          "modifiedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "operatedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "scheduleDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "convertedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedFinishAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "netValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "grossValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "incomeTax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "operationTax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "administrationTax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "managementTax": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "isTotal": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "requestedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "marketOrderType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionProductResultPaginationResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionProductResult"
+            },
+            "nullable": true
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionSource": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitle": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionStatus": {
+        "enum": [
+          "Inserted",
+          "PendingRegistration",
+          "Registered",
+          "AwaitingApproval",
+          "PreApproved",
+          "Approved",
+          "PendingQuote",
+          "PaidUnquoted",
+          "Quoted",
+          "Executed",
+          "Expired",
+          "Refused",
+          "Canceled",
+          "Removed"
+        ],
+        "type": "string"
+      },
+      "TransactionStatusRequest": {
+        "enum": [
+          "PendingAgreements",
+          "Requested",
+          "Scheduled",
+          "Acknowledged",
+          "PendingBalanceLock",
+          "Processing",
+          "Sent",
+          "Finished",
+          "Canceled",
+          "Refused"
+        ],
+        "type": "string"
+      },
+      "TransactionStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/TransactionStatus"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionTransferOutPatchRequest": {
+        "type": "object",
+        "properties": {
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sentAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionTransferOutStatus"
+          },
+          "reservationApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "reserveSpecificationApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalTransferApiId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionTransferOutPostRequest": {
+        "type": "object",
+        "properties": {
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sentAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionTransferOutStatus"
+          },
+          "reservationApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "reserveSpecificationApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalTransferApiId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionTransferOutResponse": {
+        "type": "object",
+        "properties": {
+          "transactionApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "sentAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "customerApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TransactionTransferOutStatus"
+          },
+          "reservationApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "reserveSpecificationApiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalTransferApiId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionTransferOutResponsePaginationResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionTransferOutResponse"
+            },
+            "nullable": true
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionTransferOutStatus": {
+        "enum": [
+          "AwaitingRedemption",
+          "AwaitingReserveSpecification",
+          "ReserveSpecified",
+          "ExternalTransferSent",
+          "Finished",
+          "Canceled"
+        ],
+        "type": "string"
+      },
+      "TransactionType": {
+        "enum": [
+          "Doc",
+          "Ted",
+          "Invoice",
+          "DirectDebit",
+          "WithDrawal",
+          "Investment",
+          "PortfoliosTransfer",
+          "ChargingFees",
+          "AutoDebit",
+          "Refund",
+          "ElliotTransfer",
+          "FinancialInstitutionTransfer",
+          "PaymentBankSlip",
+          "CashbackReinvestment",
+          "CashbackPayment",
+          "InstrumentEvent",
+          "AssetTransfer",
+          "Spb",
+          "ExchangeTransfer",
+          "Pix",
+          "Earnings",
+          "PixReturn",
+          "PixSchedule",
+          "InvestmentPortability",
+          "WithDrawalPortability",
+          "InvestmentInternalPortability",
+          "WithDrawalInternalPortability",
+          "InvestmentExternalPortability",
+          "WithDrawalExternalPortability",
+          "Crypto"
+        ],
+        "type": "string"
+      },
+      "TransactionsModule": {
+        "enum": [
+          "Overview",
+          "Cash",
+          "Wealth",
+          "Trade"
+        ],
+        "type": "string"
+      },
+      "TransactionsPagedSorting": {
+        "enum": [
+          "CreatedDate",
+          "Value",
+          "TransactionDate",
+          "StatusDate",
+          "CustomerName",
+          "From",
+          "To",
+          "TransactionValue",
+          "Amount",
+          "LiquidateAndCreatedDate"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "security": [
+      {
+        "Authorization": []
+      }
+    ]
+  }
+}
