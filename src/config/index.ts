@@ -22,5 +22,5 @@ export default {
     account_rendering: '/specs/account-rendering.json',
     portfolios: '/specs/portfolios.json'
   },
-  pages: ['/', '/search', '/pages/changelog', '/pages/authentication', '/pages/onboarding', '/pages/account-rendering', '/pages/portfolios', '/pages/transactions']
+  pages: ['/', '/search', '/pages/changelog', '/pages/onboarding', '/pages/account-rendering', '/pages/portfolios', '/pages/transactions', '/pages/athena']
 } as GlobalState

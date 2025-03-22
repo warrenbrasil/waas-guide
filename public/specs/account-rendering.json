@@ -11704,19 +11704,10 @@
         "description": "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
         "name": "Authorization",
         "in": "header"
-      },
-      "BrandId": {
-        "type": "apiKey",
-        "description": "Informe o brandId do parceiro",
-        "name": "x-brand-id",
-        "in": "header"
       }
     }
   },
   "security": [
-    {
-      "BrandId": []
-    },
     {
       "Bearer": []
     }

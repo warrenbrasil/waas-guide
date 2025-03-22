@@ -1,0 +1,3864 @@
+{
+  "openapi": "3.0.1",
+  "name": "athena",
+  "info": {
+    "title": "Catálogo de Produtos",
+    "description": "API para consulta de produtos da Warren",
+    "version": "2.0"
+  },
+  "paths": {
+    "/v2/assets/{identifier}/prices": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "summary": "Obtém os preços do ativo.",
+        "operationId": "getAssetPrices",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initialDate",
+            "in": "query",
+            "description": "Obtém preços a partir dessa data",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "finalDate",
+            "in": "query",
+            "description": "Obtém preços antes dessa data",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.AssetPriceResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.AssetPriceResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.AssetPriceResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{identifier}/returns": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "operationId": "getAssetReturns",
+        "summary": "Obtém rentabilidade de cada período.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/assets/carteira-11---investidor-qualificado/returns' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.ReturnResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.ReturnResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.ReturnResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{identifier}/returns/accumulated": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "operationId": "getAssetReturnsAccumulated",
+        "summary": "Obtém rentabilidade acumulada.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/assets/carteira-11---investidor-qualificado/returns/accumulated' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initialDate",
+            "in": "query",
+            "description": "Data inicial de referência. Campo não obrigatório, caso não fornecido, é considerado a data inicial do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "finalDate",
+            "in": "query",
+            "description": "Data final de referência. Campo não obrigatório, caso não fornecido, é considerado a data do último preço do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodType",
+            "in": "query",
+            "description": "Filtro por periodo (1m, 3m, 12m)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "benchmarkIdentifiers",
+            "in": "query",
+            "description": "Lista de identificadores para benchmarks. Exemplos: (CDI, IBOVESPA).",
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{identifier}/returns/historical": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "operationId": "getAssetReturnsHistorical",
+        "summary": "Obtém rentabilidade histórica mes a mes.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/assets/carteira-11---investidor-qualificado/returns/historical' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initialDate",
+            "in": "query",
+            "description": "Data inicial de referência. Campo não obrigatório, caso não fornecido, é considerado a data inicial do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "finalDate",
+            "in": "query",
+            "description": "Data final de referência. Campo não obrigatório, caso não fornecido, é considerado a data do último preço do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "benchmarkIdentifiers",
+            "in": "query",
+            "description": "Lista de identificadores para benchmarks. Exemplos: (CDI, IBOVESPA).",
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.HistoricalReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.HistoricalReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.HistoricalReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{identifier}/volatilities": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "operationId": "getAssetVolatilities",
+        "summary": "Obtém volatilidade de cada período.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/assets/carteira-11---investidor-qualificado/volatilities' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.VolatilityResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.VolatilityResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.VolatilityResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{identifier}/volatilities/accumulated": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "operationId": "getAssetVolatilitiesAccumulated",
+        "summary": "Obtém volatilidade acumulada.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/assets/carteira-11---investidor-qualificado/volatilities/accumulated' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initialDate",
+            "in": "query",
+            "description": "Data inicial de referência. Campo não obrigatório, caso não fornecido, é considerado a data inicial do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "finalDate",
+            "in": "query",
+            "description": "Data final de referência. Campo não obrigatório, caso não fornecido, é considerado a data do último preço do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodType",
+            "in": "query",
+            "description": "Filtro por periodo (1m, 3m, 12m)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "benchmarkIdentifiers",
+            "in": "query",
+            "description": "Lista de identificadores para benchmarks. Exemplos: (CDI, IBOVESPA).",
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedVolatilitiesResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedVolatilitiesResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedVolatilitiesResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{identifier}/drawdowns": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "operationId": "getAssetDrawdowns",
+        "summary": "Obtém o drawdown de cada período.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/assets/carteira-11---investidor-qualificado/drawdowns' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.DrawdownResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.DrawdownResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.DrawdownResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/assets/{identifier}/drawdowns/accumulated": {
+      "get": {
+        "tags": [
+          "Ativo"
+        ],
+        "operationId": "getAssetDrawdownsAccumulated",
+        "summary": "Obtém drawdown acumulado.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/assets/carteira-11---investidor-qualificado/drawdowns/accumulated' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "initialDate",
+            "in": "query",
+            "description": "Data inicial de referência. Campo não obrigatório, caso não fornecido, é considerado a data inicial do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "finalDate",
+            "in": "query",
+            "description": "Data final de referência. Campo não obrigatório, caso não fornecido, é considerado a data do último preço do ativo.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "periodType",
+            "in": "query",
+            "description": "Filtro por periodo (1m, 3m, 12m)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "benchmarkIdentifiers",
+            "in": "query",
+            "description": "Lista de identificadores para benchmarks. Exemplos: (CDI, IBOVESPA).",
+            "schema": {
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedDrawdownsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedDrawdownsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedDrawdownsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/portfolios": {
+      "get": {
+        "tags": [
+          "Carteira"
+        ],
+        "operationId": "getPortfolios",
+        "summary": "Obtém carteiras disponíveis.",
+        "description": "## Request na API de Staging\r\n\r\n```\r\ncurl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/portfolios' \\\r\n--header 'Accept: text/plain' \\\r\n--header 'Content-Type: application/json' \\\r\n```",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.PortfolioResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.PortfolioResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.PortfolioResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/reports/funds": {
+      "get": {
+        "tags": [
+          "Fundo"
+        ],
+        "operationId": "getReportsFunds",
+        "summary": "Obtém fundos com relatórios disponíveis.",
+        "description": " ## Request na API de Staging\r\n \r\n ```\r\n curl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/reports/funds' \\\r\n --header 'Accept: text/plain' \\\r\n --header 'Content-Type: application/json' \\\r\n ```\r\n \r\n ## Retorno da API\r\n \r\n ``` json\r\n{\r\n    \"result\": [\r\n         {\r\n             \"isinCode\": \"\",\r\n             \"document\": \"47718395000126\",\r\n             \"initialDate\": \"2023-01-16T00:00:00\",\r\n             \"isExclusiveFund\": false,\r\n             \"isFundOfFunds\": true,\r\n             \"isLongTerm\": false,\r\n             \"isQualifiedInvestor\": false,\r\n             \"rule\": {\r\n                \"purchaseConversionDays\": 0,\r\n                \"redemptionConversionDays\": 65,\r\n                \"redemptionPaymentDays\": 67,\r\n                \"minimumInitialInvestment\": 1.00000000,\r\n                \"minimumAdditionalInvestment\": 1.00000000,\r\n                \"administrationFee\": \"0,10%\",\r\n                \"taxType\": \"Longo Prazo\",\r\n                \"taxTypeAbbreviation\": \"LP\",\r\n                \"semiAnnualTaxRate\": 0.1500\r\n              },\r\n              \"name\": \"WARREN MULTIGESTORES AÇÕES PLUS FIC FI AÇÕE\",\r\n              \"nickname\": \"Warren Multigestores Acoes Plus FIC de FI Acoe\",\r\n              \"description\": \"Warren Multigestores é um fundo que investe em gestores selecionados pelo nosso Comitê de Produtos. Essa solução democratiza o acesso a gestores exclusivos através de uma carteira diversificada e monitorada pelo nosso time de alocação da Warren. A aplicação mínima permite que qualquer cliente Warren invista em todos os gestores por apenas R$ 1,00 sem se preocupar com balanceamento da carteira, o que confere eficiência operacional. Por fim, toda alteração de produto dentro do Warren Multigestores não é tributável, aumentando também a eficiência tributária.\",\r\n              \"firstPriceDate\": \"2023-01-16T00:00:00\",\r\n              \"lastPriceDate\": \"2024-07-26T00:00:00\",\r\n              \"identifier\": \"warren-multigestores-acoes-plus-fic-fi-acoe\"\r\n         }\r\n    ],\r\n    \"httpStatusCode\": 200\r\n}\r\n ```",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/funds": {
+      "get": {
+        "tags": [
+          "Fundo"
+        ],
+        "operationId": "getFunds",
+        "summary": "Obtém informações básicas dos fundos.",
+        "description": " ## Request na API de Staging\r\n \r\n ```\r\n curl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/funds' \\\r\n --header 'Accept: text/plain' \\\r\n --header 'Content-Type: application/json' \\\r\n ```\r\n \r\n ## Retorno da API\r\n \r\n ``` json\r\n{\r\n    \"result\": [\r\n         {\r\n             \"isinCode\": \"\",\r\n             \"document\": \"47718395000126\",\r\n             \"initialDate\": \"2023-01-16T00:00:00\",\r\n             \"isExclusiveFund\": false,\r\n             \"isFundOfFunds\": true,\r\n             \"isLongTerm\": false,\r\n             \"isQualifiedInvestor\": false,\r\n             \"rule\": {\r\n                \"purchaseConversionDays\": 0,\r\n                \"redemptionConversionDays\": 65,\r\n                \"redemptionPaymentDays\": 67,\r\n                \"minimumInitialInvestment\": 1.00000000,\r\n                \"minimumAdditionalInvestment\": 1.00000000,\r\n                \"administrationFee\": \"0,10%\",\r\n                \"taxType\": \"Longo Prazo\",\r\n                \"taxTypeAbbreviation\": \"LP\",\r\n                \"semiAnnualTaxRate\": 0.1500\r\n              },\r\n              \"name\": \"WARREN MULTIGESTORES AÇÕES PLUS FIC FI AÇÕE\",\r\n              \"nickname\": \"Warren Multigestores Acoes Plus FIC de FI Acoe\",\r\n              \"description\": \"Warren Multigestores é um fundo que investe em gestores selecionados pelo nosso Comitê de Produtos. Essa solução democratiza o acesso a gestores exclusivos através de uma carteira diversificada e monitorada pelo nosso time de alocação da Warren. A aplicação mínima permite que qualquer cliente Warren invista em todos os gestores por apenas R$ 1,00 sem se preocupar com balanceamento da carteira, o que confere eficiência operacional. Por fim, toda alteração de produto dentro do Warren Multigestores não é tributável, aumentando também a eficiência tributária.\",\r\n              \"firstPriceDate\": \"2023-01-16T00:00:00\",\r\n              \"lastPriceDate\": \"2024-07-26T00:00:00\",\r\n              \"identifier\": \"warren-multigestores-acoes-plus-fic-fi-acoe\"\r\n         }\r\n    ],\r\n    \"httpStatusCode\": 200\r\n ```",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortFields",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sortDirections",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          {
+            "name": "document",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documents",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "isGalgoQuotaFetchAllowed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "externalSystems",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "externalIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hasQuotasWithError",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "onlyDistributedFunds",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/funds/{identifier}": {
+      "get": {
+        "tags": [
+          "Fundo"
+        ],
+        "operationId": "getFundsByIdentifier",
+        "summary": "Obtém o fundo.",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/indexes": {
+      "get": {
+        "tags": [
+          "Índice"
+        ],
+        "operationId": "getIndexes",
+        "summary": "Obtém índices disponíveis.",
+        "description": " ## Request na API de Staging\r\n \r\n ```\r\n curl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/indexes' \\\r\n --header 'Accept: text/plain' \\\r\n --header 'Content-Type: application/json' \\\r\n ```\r\n \r\n ## Retorno da API\r\n \r\n ``` json\r\n{\r\n    \"result\": [\r\n        {\r\n            \"indexId\": 1,\r\n            \"name\": \"CDI\",\r\n            \"identifier\": \"cdi\"\r\n        },\r\n        {\r\n            \"indexId\": 2,\r\n            \"name\": \"Ibovespa\",\r\n            \"identifier\": \"ibov\"\r\n        },\r\n        {\r\n            \"indexId\": 3,\r\n            \"name\": \"Dólar\",\r\n            \"identifier\": \"dolar\"\r\n        },\r\n        {\r\n            \"indexId\": 4,\r\n            \"name\": \"IPCA\",\r\n            \"identifier\": \"ipca\"\r\n        }\r\n    ],\r\n    \"httpStatusCode\": 200\r\n}\r\n ```",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.IndexResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.IndexResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.IndexResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/indexes/{identifier}/returns": {
+      "get": {
+        "tags": [
+          "Índice"
+        ],
+        "operationId": "getIndexesReturns",
+        "summary": "Obtém a rentabilidade de um índice por período.",
+        "description": " ## Request na API de Staging\r\n \r\n ```\r\n curl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/indexes/ibov/returns' \\\r\n --header 'Accept: text/plain' \\\r\n --header 'Content-Type: application/json' \\\r\n ```\r\n \r\n ## Retorno da API\r\n \r\n ``` json\r\n {\r\n  \"result\": {\r\n      \"monthly\": 0.0402757562049787,\r\n      \"annual\": -0.0394101467493742,\r\n      \"past03Months\": 0.0236077754401279,\r\n      \"past06Months\": 0.00896030974946201,\r\n      \"past12Months\": 0.0570266529487798,\r\n      \"past24Months\": 0.249429237852602,\r\n      \"past36Months\": 0.0582606237611431,\r\n      \"inception\": 19010.3539823009,\r\n      \"identifier\": \"ibov\",\r\n      \"description\": \"Ibovespa\",\r\n      \"type\": \"Index\",\r\n      \"referenceDate\": \"2024-07-12T00:00:00\"\r\n  },\r\n  \"httpStatusCode\": 200\r\n}\r\n ```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "**Identificador do índice**\r\n\r\n` cdi, ibov `",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.ReturnResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.ReturnResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.ReturnResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/indexes/{identifier}/volatilities": {
+      "get": {
+        "tags": [
+          "Índice"
+        ],
+        "operationId": "getIndexesVolatilities",
+        "summary": "Obtém a volatilidade de um índice por período.",
+        "description": " ## Request na API de Staging\r\n \r\n ```\r\n curl --location --request GET 'https://athena-api.stg.consolidacao.warren.com.br/v2/indexes/ibov/volatilities' \\\r\n --header 'Accept: text/plain' \\\r\n --header 'Content-Type: application/json' \\\r\n ```\r\n \r\n ## Retorno da API\r\n \r\n ``` json\r\n{\r\n  \"result\": {\r\n      \"monthly\": 0.0445952511686578,\r\n      \"annual\": 0.117802869444196,\r\n      \"past03Months\": 0.110394216879838,\r\n      \"past06Months\": 0.117752014095637,\r\n      \"past12Months\": 0.129532283327921,\r\n      \"past24Months\": 0.173008541775387,\r\n      \"past36Months\": 0.18191979820459,\r\n      \"inception\": 0.343492628528326,\r\n      \"identifier\": \"ibov\",\r\n      \"type\": \"Index\",\r\n      \"referenceDate\": \"2024-07-12T00:00:00\"\r\n  },\r\n  \"httpStatusCode\": 200\r\n}\r\n ```",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "**Identificador do índice**\r\n\r\n` cdi, ibov `",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.VolatilityResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.VolatilityResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.VolatilityResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/structured-operation-offers": {
+      "get": {
+        "tags": [
+          "Oferta de Operação Estruturada"
+        ],
+        "operationId": "getStructuredOperationOffers",
+        "summary": "Obtém as ofertas de operação estruturada.",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortFields",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sortDirections",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "identifiers",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "includesInactive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/structured-operation-offers/{identifier}": {
+      "get": {
+        "tags": [
+          "Oferta de Operação Estruturada"
+        ],
+        "operationId": "getStructuredOperationOffersByIdentifier",
+        "summary": "Obtém a oferta de operação estruturada.",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/bond-offers": {
+      "get": {
+        "tags": [
+          "Oferta de Renda Fixa"
+        ],
+        "operationId": "getBondOffers",
+        "summary": "Obtém as ofertas de renda fixa.",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortFields",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sortDirections",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "identifiers",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assetGroupTypeIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "indexingTypeIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "minimumMinimumInvestment",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "maximumMinimumInvestment",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "riskScoreTypeIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "minimumMaturityDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "maximumMaturityDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "minimumGracePeriodDays",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "maximumGracePeriodDays",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "hasDailyLiquidity",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "hasLiquidityAtMaturity",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isTaxExempt",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "hasFgcGuaranteed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "typeIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/bond-offers/{identifier}": {
+      "get": {
+        "tags": [
+          "Oferta de Renda Fixa"
+        ],
+        "operationId": "getBondOffersByIdentifier",
+        "summary": "Obtém a oferta de renda fixa.",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/funds/{identifier}/reports/fund-fact-sheet": {
+      "post": {
+        "tags": [
+          "Relatório"
+        ],
+        "operationId": "getFundsReportsFundFactSheet",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.FundFactSheetReportRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.FundFactSheetReportRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.FundFactSheetReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/v2/funds/{identifier}/reports/tactical-fund-fact-sheet": {
+      "post": {
+        "tags": [
+          "Relatório"
+        ],
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.TacticalFundFactSheetReportRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.TacticalFundFactSheetReportRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.TacticalFundFactSheetReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/v2/portfolios/{identifier}/reports/portfolio-fact-sheet": {
+      "post": {
+        "tags": [
+          "Relatório"
+        ],
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.PortfolioFactSheetReportRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.PortfolioFactSheetReportRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Warren.Athena.Public.Application.Reports.PortfolioFactSheetReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/v2/government-bonds": {
+      "get": {
+        "tags": [
+          "Renda Fixa"
+        ],
+        "summary": "Obtém os títulos do tesouro direto.",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortFields",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sortDirections",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "identifiers",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "segmentIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "isPurchasable",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isRedeemable",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "includesInactive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/government-bonds/{identifier}": {
+      "get": {
+        "tags": [
+          "Renda Fixa"
+        ],
+        "summary": "Obtém o título do tesouro direto.",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/private-debt-bonds": {
+      "get": {
+        "tags": [
+          "Renda Fixa"
+        ],
+        "summary": "Obtém os títulos de Debentures/CRI/CRA.",
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sortFields",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "sortDirections",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "identifiers",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "typeIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/private-debt-bonds/{identifier}": {
+      "get": {
+        "tags": [
+          "Renda Fixa"
+        ],
+        "summary": "Obtém o títulos de Debentures/CRI/CRA.",
+        "parameters": [
+          {
+            "name": "identifier",
+            "in": "path",
+            "description": "Identificador do ativo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/risk-score-types": {
+      "get": {
+        "tags": [
+          "Risco de Ativos"
+        ],
+        "summary": "Obtém os tipos de risco dos ativos.",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/risk-score-types/{riskScoreTypeId}/risk-profiles": {
+      "get": {
+        "tags": [
+          "Risco de Ativos"
+        ],
+        "summary": "Obtém os perfis de risco de acordo com o tipo de risco fornecido.",
+        "parameters": [
+          {
+            "name": "riskScoreTypeId",
+            "in": "path",
+            "description": "Id do tipo de risco",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskProfileResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskProfileResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskProfileResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "System.Net.HttpStatusCode": {
+        "enum": [
+          100,
+          101,
+          102,
+          103,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          226,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307,
+          308,
+          400,
+          401,
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408,
+          409,
+          410,
+          411,
+          412,
+          413,
+          414,
+          415,
+          416,
+          417,
+          421,
+          422,
+          423,
+          424,
+          426,
+          428,
+          429,
+          431,
+          451,
+          500,
+          501,
+          502,
+          503,
+          504,
+          505,
+          506,
+          507,
+          508,
+          510,
+          511
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Warren.Athena.Public.Application.AccumulatedDrawdownsResult": {
+        "type": "object",
+        "properties": {
+          "accumulatedDrawdowns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.AccumulatedValueResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+            },
+            "nullable": true
+          },
+          "valueDetail": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.ValueDetailResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.AccumulatedReturnsResult": {
+        "type": "object",
+        "properties": {
+          "accumulatedReturns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.AccumulatedValueResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+            },
+            "nullable": true
+          },
+          "valueDetail": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.ValueDetailResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.AccumulatedValueResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "valuesByDates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.ValueByDateResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.AccumulatedVolatilitiesResult": {
+        "type": "object",
+        "properties": {
+          "accumulatedVolatilities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.AccumulatedValueResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+            },
+            "nullable": true
+          },
+          "valueDetail": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.ValueDetailResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.DrawdownItemResult": {
+        "type": "object",
+        "properties": {
+          "maxDrawdownPercentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxDrawdownValue": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Reports.FundFactSheetReportRequest": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "outputFormat": {
+            "type": "string",
+            "nullable": true
+          },
+          "benchmarkIdentifiers": {
+            "nullable": true
+          },
+          "performanceFee": {
+            "type": "number",
+            "format": "double"
+          },
+          "auditorium": {
+            "type": "string",
+            "nullable": true
+          },
+          "isForeignExchangeExposure": {
+            "type": "boolean"
+          },
+          "minVolatilityTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxVolatilityTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxType": {
+            "type": "string",
+            "nullable": true
+          },
+          "markets": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Reports.PortfolioFactSheetReportRequest": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "outputFormat": {
+            "type": "string",
+            "nullable": true
+          },
+          "benchmarkIdentifiers": {
+            "nullable": true
+          },
+          "purchaseConversionDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "redemptionBusinessDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "redemptionConsecutiveDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minimumInitialInvestment": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumAdditionalInvestment": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxType": {
+            "type": "string",
+            "nullable": true
+          },
+          "minVolatilityTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxVolatilityTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxDrawdownTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "performanceFee": {
+            "type": "number",
+            "format": "double"
+          },
+          "suggestedInvestmentTerm": {
+            "type": "string",
+            "nullable": true
+          },
+          "markets": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Reports.TacticalFundFactSheetReportRequest": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "outputFormat": {
+            "type": "string",
+            "nullable": true
+          },
+          "benchmarkIdentifiers": {
+            "nullable": true
+          },
+          "performanceFee": {
+            "type": "number",
+            "format": "double"
+          },
+          "auditorium": {
+            "type": "string",
+            "nullable": true
+          },
+          "isForeignExchangeExposure": {
+            "type": "boolean"
+          },
+          "minVolatilityTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxVolatilityTarget": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxType": {
+            "type": "string",
+            "nullable": true
+          },
+          "markets": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.AnbimaClassResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "benchmarkId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.AnbimaSubclassResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.DrawdownResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "monthly": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          },
+          "annual": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          },
+          "past03Months": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          },
+          "past06Months": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          },
+          "past12Months": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          },
+          "past24Months": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          },
+          "past36Months": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          },
+          "inception": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.DrawdownItemResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.IndexResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "fundDocument": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.ReturnResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "format": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthly": {
+            "type": "number",
+            "format": "double"
+          },
+          "annual": {
+            "type": "number",
+            "format": "double"
+          },
+          "past03Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past06Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past12Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past24Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past36Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "inception": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.VolatilityResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "format": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthly": {
+            "type": "number",
+            "format": "double"
+          },
+          "annual": {
+            "type": "number",
+            "format": "double"
+          },
+          "past03Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past06Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past12Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past24Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "past36Months": {
+            "type": "number",
+            "format": "double"
+          },
+          "inception": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.AssetExternalSystemResult": {
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "externalSystem": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.AssetFileResult": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.AssetInvestorRiskProfileResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.AssetPriceResult": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.AssetRiskProfileResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "investorRiskProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetInvestorRiskProfileResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.BaseAssetResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "assetCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.BondOfferIndexingResult": {
+        "type": "object",
+        "properties": {
+          "fixedRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "floatedRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.BondOfferResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "riskScoreType": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult"
+          },
+          "externalSystems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetExternalSystemResult"
+            },
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetFileResult"
+            },
+            "nullable": true
+          },
+          "bondId": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "maturityDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "faceValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "indexing": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.BondOfferIndexingResult"
+          },
+          "minimumInvestment": {
+            "type": "number",
+            "format": "double"
+          },
+          "financialMultiplierValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "hasFgcGuaranteed": {
+            "type": "boolean"
+          },
+          "hasDailyLiquidity": {
+            "type": "boolean"
+          },
+          "gracePeriodDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.BondOfferTypeResult"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isTaxExempt": {
+            "type": "boolean"
+          },
+          "spreadValue": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "offerStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "offerEndDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.BondOfferTypeResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.FundResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "riskScoreType": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult"
+          },
+          "externalSystems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetExternalSystemResult"
+            },
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetFileResult"
+            },
+            "nullable": true
+          },
+          "isinCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "document": {
+            "type": "string",
+            "nullable": true
+          },
+          "initialDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isExclusiveFund": {
+            "type": "boolean"
+          },
+          "isFundOfFunds": {
+            "type": "boolean"
+          },
+          "isLongTerm": {
+            "type": "boolean"
+          },
+          "isQualifiedInvestor": {
+            "type": "boolean"
+          },
+          "defaultReportIdentifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasQuotasWithError": {
+            "type": "boolean"
+          },
+          "isDistributedFund": {
+            "type": "boolean"
+          },
+          "lastQuotaValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rule": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.FundRuleResult"
+          },
+          "anbimaClass": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.AnbimaClassResult"
+          },
+          "anbimaSubclass": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.AnbimaSubclassResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.FundRuleResult": {
+        "type": "object",
+        "properties": {
+          "purchaseConversionDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "redemptionConversionDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "redemptionPaymentDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minimumInitialInvestment": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumAdditionalInvestment": {
+            "type": "number",
+            "format": "double"
+          },
+          "administrationFee": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxType": {
+            "type": "string",
+            "nullable": true
+          },
+          "taxTypeAbbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "semiAnnualTaxRate": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.GovernmentBondIndexingResult": {
+        "type": "object",
+        "properties": {
+          "fixedRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.GovernmentBondResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "riskScoreType": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult"
+          },
+          "externalSystems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetExternalSystemResult"
+            },
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetFileResult"
+            },
+            "nullable": true
+          },
+          "bondId": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "maturityDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isinCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "purchaseUnitPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "purchaseMultiplierValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "isPurchasable": {
+            "type": "boolean"
+          },
+          "purchaseIndexing": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.GovernmentBondIndexingResult"
+          },
+          "minimumInvestment": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumRedemption": {
+            "type": "number",
+            "format": "double"
+          },
+          "redemptionUnitPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "redemptionMultiplierValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "minimumRedemptionQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "isRedeemable": {
+            "type": "boolean"
+          },
+          "issuer": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.InstitutionResult"
+          },
+          "taxType": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.GovernmentBondTaxTypeResult"
+          },
+          "redemptionIndexing": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.GovernmentBondIndexingResult"
+          },
+          "segment": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.GovernmentBondSegmentResult"
+          },
+          "marketStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "marketEndDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "hasGovernmentGuaranteed": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.GovernmentBondSegmentResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.GovernmentBondTaxTypeResult": {
+        "type": "object",
+        "properties": {
+          "irDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "iofDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.HistoricalReturnsItemMonthResult": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "return": {
+            "type": "number",
+            "format": "double"
+          },
+          "hasReturn": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.HistoricalReturnsItemResult": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isBenchmarkComparison": {
+            "type": "boolean"
+          },
+          "years": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.HistoricalReturnsItemYearResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.HistoricalReturnsItemYearResult": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "annual": {
+            "type": "number",
+            "format": "double"
+          },
+          "inception": {
+            "type": "number",
+            "format": "double"
+          },
+          "months": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.HistoricalReturnsItemMonthResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.HistoricalReturnsResult": {
+        "type": "object",
+        "properties": {
+          "historicalReturns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.HistoricalReturnsItemResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.InstitutionResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "document": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.PortfolioResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "riskScoreType": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult"
+          },
+          "externalSystems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetExternalSystemResult"
+            },
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetFileResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.PrivateDebtBondIndexingResult": {
+        "type": "object",
+        "properties": {
+          "indexId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "index": {
+            "type": "string",
+            "nullable": true
+          },
+          "fixedRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "floatedRate": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "riskScoreType": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult"
+          },
+          "externalSystems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetExternalSystemResult"
+            },
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetFileResult"
+            },
+            "nullable": true
+          },
+          "bondId": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "maturityDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "faceValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "isTaxExempt": {
+            "type": "boolean"
+          },
+          "issuer": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.InstitutionResult"
+          },
+          "indexing": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.PrivateDebtBondIndexingResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nickname": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastPriceDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "riskScoreType": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult"
+          },
+          "externalSystems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetExternalSystemResult"
+            },
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetFileResult"
+            },
+            "nullable": true
+          },
+          "baseAsset": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.BaseAssetResult"
+          },
+          "baseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "maturityDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "minimumInvestmentQuantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumReturn": {
+            "type": "number",
+            "format": "double"
+          },
+          "maximumRiskValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "brokerageFee": {
+            "type": "number",
+            "format": "double"
+          },
+          "structuringFee": {
+            "type": "number",
+            "format": "double"
+          },
+          "typeDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "offerStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "offerEndDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.ValueByDateResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Public.Application.ValueDetailResult`1[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "initialDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "minValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxValue": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.Filter": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.BondOfferResult"
+            },
+            "nullable": true
+          },
+          "filters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.Filter"
+              },
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "sortableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.SortableField"
+            },
+            "nullable": true
+          },
+          "paginationInfo": {
+            "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationInfo"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.FundResult"
+            },
+            "nullable": true
+          },
+          "filters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.Filter"
+              },
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "sortableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.SortableField"
+            },
+            "nullable": true
+          },
+          "paginationInfo": {
+            "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationInfo"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.GovernmentBondResult"
+            },
+            "nullable": true
+          },
+          "filters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.Filter"
+              },
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "sortableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.SortableField"
+            },
+            "nullable": true
+          },
+          "paginationInfo": {
+            "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationInfo"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult"
+            },
+            "nullable": true
+          },
+          "filters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.Filter"
+              },
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "sortableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.SortableField"
+            },
+            "nullable": true
+          },
+          "paginationInfo": {
+            "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationInfo"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.PaginationBag`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult"
+            },
+            "nullable": true
+          },
+          "filters": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.Filter"
+              },
+              "nullable": true
+            },
+            "nullable": true
+          },
+          "sortableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.SortableField"
+            },
+            "nullable": true
+          },
+          "paginationInfo": {
+            "$ref": "#/components/schemas/Warren.Athena.Shared.Paginations.PaginationInfo"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.PaginationInfo": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isLastPage": {
+            "type": "boolean"
+          },
+          "isEmptyPage": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Athena.Shared.Paginations.SortableField": {
+        "type": "object",
+        "properties": {
+          "property": {
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.IndexResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.IndexResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskProfileResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskProfileResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetRiskScoreTypeResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.FundResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[System.Collections.Generic.IEnumerable`1[[Warren.Athena.Public.Application.Results.v2.PortfolioResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.PortfolioResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedDrawdownsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.AccumulatedDrawdownsResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.AccumulatedReturnsResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.AccumulatedVolatilitiesResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.AccumulatedVolatilitiesResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.DrawdownResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.DrawdownResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.ReturnResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.ReturnResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.VolatilityResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.VolatilityResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.AssetPriceResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.AssetPriceResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.BondOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.BondOfferResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.FundResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.FundResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.GovernmentBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.GovernmentBondResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.HistoricalReturnsResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.HistoricalReturnsResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.PrivateDebtBondResult"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Warren.Core.Http.Responses.HttpOkResponse`1[[Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult, Warren.Athena.Public.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+        "type": "object",
+        "properties": {
+          "httpStatusCode": {
+            "$ref": "#/components/schemas/System.Net.HttpStatusCode"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Warren.Athena.Public.Application.Results.v2.StructuredOperationOfferResult"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
